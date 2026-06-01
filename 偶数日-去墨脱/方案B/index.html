@@ -529,9 +529,10 @@ var topoLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', { ma
 var satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '© Esri' });
 
 var baseMaps = {
-  'CartoDB 淡色': cartoLayer,
-  '地形图': topoLayer,
-  '卫星图': satLayer
+  '🚗 标准地图': osm,
+  '🏔️ 地形图(海拔)': topoLayer,
+  '🛰️ 卫星图': satLayer
+};
 };
 
 L.control.layers({ '🚗 标准地图': osm, '🏔️ 地形图(海拔)': topoLayer, '🛰️ 卫星图': satLayer }, null, { position: 'topright' }).addTo(map);
