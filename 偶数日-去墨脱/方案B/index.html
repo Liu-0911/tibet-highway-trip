@@ -533,9 +533,8 @@ var baseMaps = {
   '🏔️ 地形图(海拔)': topoLayer,
   '🛰️ 卫星图': satLayer
 };
-};
 
-L.control.layers({ '🚗 标准地图': osm, '🏔️ 地形图(海拔)': topoLayer, '🛰️ 卫星图': satLayer }, null, { position: 'topright' }).addTo(map);
+L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
 // Scale bar
 L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
