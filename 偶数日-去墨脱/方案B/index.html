@@ -232,23 +232,16 @@ a:hover { text-decoration: underline; }
 
 /* Search box */
 .search-box {
-  position: absolute; top: 10px; left: 10px; z-index: 1000;
-  background: rgba(255,255,255,.92); backdrop-filter: blur(10px);
-  border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,.18);
-  padding: 6px 12px; display: flex; align-items: center;
-  max-width: calc(100% - 60px); width: 280px;
+  padding: 8px 16px; background: var(--bg-primary);
+  border-bottom: .5px solid var(--separator); z-index: 98;
 }
 .search-box input {
-  border: none; background: none; outline: none;
-  font-size: 14px; padding: 6px 4px; width: 100%;
-  font-family: inherit; color: var(--text-primary);
+  width: 100%; padding: 10px 14px; border-radius: 10px;
+  border: 1px solid var(--separator); background: var(--bg-secondary);
+  font-size: 15px; font-family: inherit; outline: none;
 }
+.search-box input:focus { border-color: var(--accent); background: var(--bg-primary); }
 .search-box input::placeholder { color: var(--text-tertiary); }
-.search-box button {
-  background: var(--accent); color: #fff; border: none;
-  border-radius: 6px; padding: 6px 10px; font-size: 12px;
-  font-weight: 600; cursor: pointer; margin-left: 6px;
-}
 .search-results {
   position: absolute; top: 100%; left: 0; right: 0;
   background: rgba(255,255,255,.95); backdrop-filter: blur(10px);
