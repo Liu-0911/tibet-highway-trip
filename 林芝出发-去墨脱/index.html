@@ -252,7 +252,7 @@ function overviewContent() {
 
 var map = L.map('map', { center: [HOTEL.lat, HOTEL.lng], zoom: 6, zoomControl: false, attributionControl: true });
 L.control.zoom({ position: 'topright' }).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
 
 var LocateControl = L.Control.extend({
   options: { position: 'bottomright' },
