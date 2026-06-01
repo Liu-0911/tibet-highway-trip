@@ -161,14 +161,14 @@ const DAYS = [
   { id: 2, label: 'D2·6/6(六)', date: '6月6日·周六', title: '🚗取车→虎跳峡 | 100km·2h', color: '#34c759', locations: [
     { name: '🚗香格里拉取车', lat: 27.8250, lng: 99.7080, type: 'transport', time: '08:00-08:30', desc: '提前预约好租车。**出发前加满油！云南油价7.8元/L，进藏贵1.5元**', gmap: '香格里拉' },
     { name: '香格里拉→虎跳峡', lat: 27.4000, lng: 100.0000, type: 'transport', time: '08:30-10:30', desc: '开车往南100km/2h，海拔从3,300m降到1,800m' },
-    { name: '虎跳峡景区', lat: 27.2167, lng: 100.0500, type: 'spot', time: '10:30-13:00', desc: '世界最深峡谷之一，游玩2-3h。门票45元', xhsKeyword: '虎跳峡', gmap: '虎跳峡景区' },
+    { name: '虎跳峡景区', lat: 27.2167, lng: 100.0500, type: 'spot', time: '10:30-13:00', desc: '世界最深峡谷之一，游玩2-3h。门票45元。**途中可见哈巴雪山(5,396m)**', xhsKeyword: '虎跳峡', gmap: '虎跳峡景区' },
     { name: '虎跳峡镇午餐', lat: 27.1833, lng: 100.0500, type: 'food', time: '13:00-14:00', desc: '镇上餐厅，人均30-50元', gmap: '虎跳峡镇' },
     { name: '中虎跳徒步', lat: 27.3000, lng: 100.0333, type: 'spot', time: '14:00-17:00', desc: '可选，下到金沙江边，往返2h', xhsKeyword: '中虎跳', gmap: '中虎跳' },
     { name: '住虎跳峡镇', lat: 27.1833, lng: 100.0500, type: 'hotel', time: '17:00', desc: '海拔1,800m ✅ 低海拔适应夜', gmap: '虎跳峡镇' }
   ]},
   { id: 3, label: 'D3·6/7(日)', date: '6月7日·周日', title: '虎跳峡→香格里拉 | 100km·2h', color: '#007aff', locations: [
     { name: '出发往香格里拉', lat: 27.1833, lng: 100.0500, type: 'transport', time: '09:00', desc: '驾驶约2h，海拔从1,800m升到3,300m' },
-    { name: '松赞林寺(补)', lat: 27.8667, lng: 99.7000, type: 'spot', time: '11:00-12:30', desc: '如D1未去可今天去，去过则可去纳帕海', xhsKeyword: '松赞林寺', gmap: '松赞林寺' },
+    { name: '纳帕海环湖', lat: 27.8500, lng: 99.6167, type: 'spot', time: '11:00-12:30', desc: '6月草原正绿，牛羊成群，可环湖自驾拍照', xhsKeyword: '纳帕海', gmap: '纳帕海' },
     { name: '香格里拉午餐', lat: 27.8250, lng: 99.7080, type: 'food', time: '12:30-13:30', desc: '⛽云南便宜，玩完前加满油再走', gmap: '独克宗古城' },
     { name: '纳帕海', lat: 27.8500, lng: 99.6167, type: 'spot', time: '14:30-16:00', desc: '6月草原正绿，可环湖自驾', xhsKeyword: '纳帕海', gmap: '纳帕海' },
     { name: '独克宗古城', lat: 27.8250, lng: 99.7080, type: 'spot', time: '16:00-18:00', desc: '悠闲逛古城，适应海拔', xhsKeyword: '独克宗古城', gmap: '独克宗古城' },
@@ -186,7 +186,8 @@ const DAYS = [
     { name: '盐井古盐田', lat: 28.6500, lng: 98.6167, type: 'spot', time: '09:00', desc: '千年盐田，澜沧江边的奇观', xhsKeyword: '盐井盐田', gmap: '盐井古盐田' },
     { name: '滇藏界碑', lat: 28.7000, lng: 98.5500, type: 'spot', time: '11:00', desc: '跨过这里就进西藏了！打卡留念', xhsKeyword: '滇藏界碑', gmap: '滇藏界碑' },
     { name: '芒康午餐+加油', lat: 29.6800, lng: 98.5930, type: 'food', time: '13:00', desc: '进藏第一县。⛽西藏油价约9元+/L，必须加满', gmap: '芒康县' },
-    { name: '如美镇', lat: 29.3833, lng: 98.3333, type: 'hotel', time: '17:00', desc: '海拔2,600m ✅ 澜沧江峡谷低海拔住宿', gmap: '如美镇' }
+    { name: '如美镇', lat: 29.3833, lng: 98.3333, type: 'hotel', time: '17:00', desc: '海拔2,600m ✅ 澜沧江峡谷低海拔住宿', gmap: '如美镇' },
+    { name: '如美晚餐', lat: 29.3833, lng: 98.3333, type: 'food', time: '18:00', desc: '如美镇川菜馆，人均30-50元' }
   ]},
   { id: 6, label: 'D6·6/10(三)', date: '6月10日·周三', title: '如美→八宿·8h车程 | 310km·8h', color: '#ff3b30', locations: [
     { name: '早出发！', lat: 29.3833, lng: 98.3333, type: 'transport', time: '06:30', desc: '今天最长驾驶日' },
@@ -213,12 +214,13 @@ const DAYS = [
     { name: '墨脱出发', lat: 29.3167, lng: 95.3333, type: 'transport', time: '08:00', desc: '奇数日可出墨脱' },
     { name: '通麦大桥', lat: 30.1000, lng: 95.0833, type: 'spot', time: '11:30', desc: '曾经的通麦天险', xhsKeyword: '通麦大桥', gmap: '通麦大桥' },
     { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '13:00', desc: '鲁朗必吃！藏药石锅炖鸡', xhsKeyword: '鲁朗石锅鸡', gmap: '鲁朗镇' },
-    { name: '色季拉山·南迦巴瓦', lat: 29.5500, lng: 94.6167, type: 'spot', time: '15:00', desc: '海拔4,720m', xhsKeyword: '色季拉山', gmap: '色季拉山垭口' },
+    { name: '色季拉山·南迦巴瓦峰', lat: 29.5500, lng: 94.6167, type: 'spot', time: '15:00', desc: '海拔4,720m。🏔️**南迦巴瓦峰(7,782m)**观景台——"西藏众山之父"，终年云雾缭绕，夏季6月看到概率约30-40%', xhsKeyword: '南迦巴瓦峰', gmap: '色季拉山垭口' },
     { name: '林芝八一镇', lat: 29.6500, lng: 94.3667, type: 'hotel', time: '18:00', desc: '海拔2,950m ✅', gmap: '林芝八一镇' }
   ]},
   { id: 10, label: 'D10·6/14(日)', date: '6月14日·周日', title: '林芝→拉萨（林拉高速）| 400km·4.5h', color: '#ff9500', locations: [
     { name: '林拉高速', lat: 29.6500, lng: 94.3667, type: 'transport', time: '07:00', desc: '免费景观高速，建议早出发' },
     { name: '抵达拉萨', lat: 29.6500, lng: 91.1000, type: 'spot', time: '11:30', desc: '到达拉萨！' },
+    { name: '拉萨午餐', lat: 29.6530, lng: 91.1330, type: 'food', time: '12:00', desc: '推荐藏面/甜茶馆' },
     { name: '八廓街', lat: 29.6530, lng: 91.1330, type: 'spot', time: '14:00', desc: '初到拉萨，慢走八廓街适应海拔', xhsKeyword: '八廓街', gmap: '八廓街' },
     { name: '藏餐晚餐', lat: 29.6530, lng: 91.1330, type: 'food', time: '19:00', desc: '推荐甜茶馆/藏餐', gmap: '八廓街' }
   ]},
@@ -250,6 +252,7 @@ function overviewContent() {
 <div class="day-list">${DAYS.slice(1).map(d => `<div class="card" onclick="go(${d.id})"><div class="name"><span class="dot" style="background:${d.color}"></span>${d.label} · ${d.title}</div><div class="desc">${d.date}</div></div>`).join('')}</div>
 <div class="section-head">支付提醒</div>
 <div class="pay-summary"><h4>⛽ 加油提醒</h4>云南油价 <span class="ok-text">~7.8元/L</span>，西藏约 <span class="warn">~9.5元/L</span>。<strong>在云南境内加满</strong>（香格里拉/德钦），进藏后每箱多花约60-90元。</div>
+<div class="pay-summary"><h4>🏔️ 沿途雪山</h4>D2哈巴雪山(5,396m)→D4白马雪山(5,430m)→<strong>D4-D5梅里雪山(6,740m)</strong>⭐⭐⭐→D9<strong>南迦巴瓦峰(7,782m)</strong>⭐(色季拉山观景台，云多看缘分)</div>
 <div class="pay-summary"><h4>现金准备</h4>建议准备 <span class="warn">3,000-5,000元现金</span>。藏区沿途小镇（芒康、如美、八宿、然乌等）餐馆和住宿多仅收现金。</div>
 <div class="pay-summary"><h4>💡布达拉宫周一闭馆(6/15)</h4>6月15日(周一)布达拉宫闭馆，正好安排去纳木错。请提前预约布宫门票（6/16周二去）。</div>
 <div class="pay-summary"><h4>🏞️纳木错海拔4,718m</h4>纳木错海拔高，注意高反。带氧气瓶、葡萄糖、保暖衣物（湖边风大温低）。</div>
