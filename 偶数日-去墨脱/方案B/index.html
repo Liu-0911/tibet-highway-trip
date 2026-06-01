@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>G214滇藏线 · 丽江→拉萨 · 13天（丽江租车+墨脱）</title>
-<meta name="description" content="6/5飞丽江·丽江取车·途经虎跳峡·滇藏线进藏">
+<title>G214滇藏线 · 香格里拉→拉萨 · 13天（香格里拉租车+墨脱+索松村）</title>
+<meta name="description" content="6/5飞丽江·高铁到香格里拉·香格里拉租车·虎跳峡·滇藏线进藏·墨脱·索松村">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -62,7 +62,6 @@ a:hover { text-decoration: underline; }
   font-size: 18px; cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .locate-btn.active { color: #007aff; }
-/* Fullscreen button */
 .fs-btn {
   width: 36px; height: 36px; border-radius: 8px;
   background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
@@ -293,106 +292,112 @@ a:hover { text-decoration: underline; }
 <script>
 // ===== DATA =====
 
-var HOTEL = { name: '丽江三义机场（起点）', lat: 26.5390, lng: 100.2380 };
+var HOTEL = { name: '香格里拉（起点）', lat: 27.8250, lng: 99.7080 };
 
 var DAYS = [
   { id: 0, label: '总览', color: '#0071e3', locations: [] },
 
   // D1
-  { id: 1, label: 'D1·6/5(五)', date: '6月5日·周五', title: '✈️丽江→🚗虎跳峡→香格里拉 | 180km·4h', color: '#8e8e93', locations: [
-    { name: '✈️飞抵丽江三义机场', lat: 26.5390, lng: 100.2380, type: 'transport', time: '01:00', desc: '凌晨1点到丽江。🚕机场打车到市区等租车行开门' },
-    { name: '🚗丽江取车', lat: 26.8721, lng: 100.2299, type: 'transport', time: '09:00', desc: '在丽江租车。⛽丽江加满油！云南油价7.8元/L' },
-    { name: '🚗丽江→虎跳峡', lat: 27.1833, lng: 100.0500, type: 'transport', time: '09:00-11:00', desc: '80km·开车约1.5h(余量1h39min)' },
-    { name: '虎跳峡景区', lat: 27.2167, lng: 100.0500, type: 'spot', time: '11:00-13:30', desc: '世界最深峡谷之一，游玩2.5h。途中可见哈巴雪山(5,396m)', xhsKeyword: '虎跳峡' },
-    { name: '虎跳峡镇午餐', lat: 27.1833, lng: 100.0500, type: 'food', time: '13:30-14:30', desc: '人均30-50元' },
-    { name: '🚗虎跳峡→香格里拉', lat: 27.8250, lng: 99.7080, type: 'transport', time: '14:30-16:30', desc: '100km·开车约2h(余量2h12min)。海拔从1,800m升到3,300m' },
-    { name: '独克宗古城', lat: 27.8250, lng: 99.7080, type: 'spot', time: '16:30-18:00', desc: '到香格里拉逛逛古城', xhsKeyword: '独克宗古城' },
+  { id: 1, label: 'D1·6/5(五)', date: '6月5日·周五', title: '✈️丽江→🚄香格里拉 | 步行逛古城', color: '#8e8e93', locations: [
+    { name: '✈️飞抵丽江三义机场', lat: 26.5390, lng: 100.2380, type: 'transport', time: '01:00', desc: '凌晨1点到丽江。🚕机场→丽江站：25km·30min' },
+    { name: '🚄丽江站→香格里拉', lat: 26.8721, lng: 100.2299, type: 'transport', time: '07:42-09:07', desc: '高铁C字头，86km·约1h25min（方案B不租车，到香格里拉再租）' },
+    { name: '独克宗古城步行', lat: 27.8250, lng: 99.7080, type: 'spot', time: '09:30-12:00', desc: '世界最大转经筒，慢逛古城适应海拔3,300m', xhsKeyword: '独克宗古城' },
+    { name: '香格里拉午餐', lat: 27.8250, lng: 99.7080, type: 'food', time: '12:00-13:00', desc: '牦牛火锅/藏餐' },
+    { name: '松赞林寺', lat: 27.7833, lng: 99.6833, type: 'spot', time: '13:30-16:00', desc: '小布达拉宫，云南最大藏传佛教寺院', xhsKeyword: '松赞林寺' },
     { name: '住香格里拉', lat: 27.8250, lng: 99.7080, type: 'hotel', time: '18:00', desc: '海拔3,300m ⚠️第一晚高原' }
   ]},
 
   // D2
-  { id: 2, label: 'D2·6/6(六)', date: '6月6日·周六', title: '🚗纳帕海环湖·采购 | 休整日', color: '#34c759', locations: [
-    { name: '纳帕海环湖', lat: 27.8500, lng: 99.6167, type: 'spot', time: '09:00-11:30', desc: '6月草原正绿，可环湖自驾拍照', xhsKeyword: '纳帕海' },
+  { id: 2, label: 'D2·6/6(六)', date: '6月6日·周六', title: '🚗香格里拉取车→纳帕海·采购 | 休整日', color: '#34c759', locations: [
+    { name: '🚗香格里拉取车', lat: 27.8250, lng: 99.7080, type: 'transport', time: '09:00', desc: '在香格里拉租车！不是丽江租（方案B区别）。⛽云南油价7.8元/L，加满' },
+    { name: '纳帕海环湖', lat: 27.8500, lng: 99.6167, type: 'spot', time: '09:30-12:00', desc: '6月草原正绿，可环湖自驾拍照', xhsKeyword: '纳帕海' },
     { name: '香格里拉午餐', lat: 27.8250, lng: 99.7080, type: 'food', time: '12:00-13:00', desc: '牦牛火锅/藏餐' },
-    { name: '采购补给', lat: 27.8250, lng: 99.7080, type: 'spot', time: '13:30-15:00', desc: '采购路上的零食水干粮。⛽云南油价便宜，加满油' },
-    { name: '古城咖啡馆休息', lat: 27.8250, lng: 99.7080, type: 'drink', time: '15:00-17:00', desc: '适应海拔3,300m' },
+    { name: '采购补给', lat: 27.8250, lng: 99.7080, type: 'spot', time: '13:30-15:00', desc: '采购路上的零食水干粮' },
+    { name: '古城咖啡馆休整', lat: 27.8250, lng: 99.7080, type: 'drink', time: '15:00-17:00', desc: '适应海拔3,300m' },
     { name: '住香格里拉', lat: 27.8250, lng: 99.7080, type: 'hotel', time: '18:00', desc: '海拔3,300m ⚠️第二晚适应' }
   ]},
 
   // D3
-  { id: 3, label: 'D3·6/7(日)', date: '6月7日·周日', title: '香格里拉→飞来寺 | 180km·4h', color: '#007aff', locations: [
+  { id: 3, label: 'D3·6/7(日)', date: '6月7日·周日', title: '🚗香格里拉→虎跳峡半日→回香格里拉 | 100km·2h往返', color: '#007aff', locations: [
+    { name: '香格里拉→虎跳峡', lat: 27.8250, lng: 99.7080, type: 'transport', time: '08:00-09:30', desc: '🚗100km·单程1.5h。虎跳峡一日游来回住香格里拉' },
+    { name: '虎跳峡景区', lat: 27.2167, lng: 100.0500, type: 'spot', time: '09:30-12:00', desc: '世界最深峡谷之一，游玩2.5h。途中可见哈巴雪山(5,396m)', xhsKeyword: '虎跳峡' },
+    { name: '虎跳峡镇午餐', lat: 27.1833, lng: 100.0500, type: 'food', time: '12:00-13:00', desc: '人均30-50元' },
+    { name: '返回香格里拉', lat: 27.8250, lng: 99.7080, type: 'transport', time: '13:00-15:00', desc: '🚗100km·约2h返回' },
+    { name: '独克宗古城散步', lat: 27.8250, lng: 99.7080, type: 'spot', time: '15:00-17:00', desc: '自由活动' },
+    { name: '住香格里拉', lat: 27.8250, lng: 99.7080, type: 'hotel', time: '18:00', desc: '海拔3,300m' }
+  ]},
+
+  // D4
+  { id: 4, label: 'D4·6/8(一)', date: '6月8日·周一', title: '香格里拉→飞来寺（梅里日落）| 180km·4h', color: '#ff9500', locations: [
     { name: '从香格里拉出发', lat: 27.8250, lng: 99.7080, type: 'transport', time: '08:00', desc: '🚗香格里拉→金沙江大拐弯：80km·1h20min(余量1h28min)' },
     { name: '金沙江大拐弯', lat: 28.2833, lng: 99.2500, type: 'spot', time: '09:00-09:30', desc: 'Ω形大拐弯，停留30min', xhsKeyword: '金沙江大拐弯' },
     { name: '白马雪山垭口', lat: 28.3833, lng: 99.0500, type: 'spot', time: '10:30-11:00', desc: '海拔4,300m。🏔️白马雪山(5,430m)', xhsKeyword: '白马雪山' },
     { name: '德钦午餐', lat: 28.4833, lng: 98.9167, type: 'food', time: '12:00-13:00', desc: '⛽德钦是进藏前最后云南加油站！加满', gmap: '德钦县' },
     { name: '飞来寺', lat: 28.4500, lng: 98.8830, type: 'hotel', time: '13:15', desc: '🚗德钦→飞来寺：10km·15min。海拔3,450m ⚠️选观景房' },
-    { name: '梅里雪山日落', lat: 28.4500, lng: 98.8830, type: 'spot', time: '18:30', desc: '飞来寺看日落金顶', xhsKeyword: '梅里雪山日落' }
+    { name: '梅里雪山日落金顶', lat: 28.4500, lng: 98.8830, type: 'spot', time: '18:30', desc: '飞来寺看梅里雪山日落。🏔️卡瓦格博峰(6,740m)', xhsKeyword: '梅里雪山日落' }
   ]},
 
-  // D4
-  { id: 4, label: 'D4·6/8(一)', date: '6月8日·周一', title: '飞来寺→如美·进藏 | 270km·6h', color: '#5856d6', locations: [
-    { name: '梅里日出金顶', lat: 28.4500, lng: 98.8830, type: 'spot', time: '06:30-07:00', desc: '本路线最大亮点！日照金山', xhsKeyword: '梅里雪山日照金山' },
+  // D5
+  { id: 5, label: 'D5·6/9(二)', date: '6月9日·周二', title: '飞来寺→如美·进藏（梅里日出）| 270km·6h', color: '#5856d6', locations: [
+    { name: '梅里日出金顶', lat: 28.4500, lng: 98.8830, type: 'spot', time: '06:30-07:00', desc: '⭐本路线最大亮点之一！日照金山', xhsKeyword: '梅里雪山日照金山' },
     { name: '出发往盐井', lat: 28.4500, lng: 98.8830, type: 'transport', time: '07:00', desc: '🚗飞来寺→盐井：110km·2h(余量2h12min)' },
     { name: '盐井古盐田', lat: 28.6500, lng: 98.6167, type: 'spot', time: '09:00-10:00', desc: '千年盐田，游玩1h', xhsKeyword: '盐井盐田' },
     { name: '滇藏界碑', lat: 28.7000, lng: 98.5500, type: 'spot', time: '10:15-10:30', desc: '进西藏！打卡留念', xhsKeyword: '滇藏界碑' },
     { name: '芒康午餐+加油', lat: 29.6800, lng: 98.5930, type: 'food', time: '12:30-13:30', desc: '⛽西藏油价约9元+/L，必须加满' },
-    { name: '芒康→如美', lat: 29.6800, lng: 98.5930, type: 'transport', time: '13:30', desc: '🚗50km·1h(余量1h06min)。翻拉乌山4,338m，区间测速' },
-    { name: '如美镇', lat: 29.3833, lng: 98.3333, type: 'hotel', time: '15:00', desc: '海拔2,600m ✅ 低海拔' },
+    { name: '芒康→如美', lat: 29.6800, lng: 98.5930, type: 'transport', time: '13:30', desc: '🚗50km·1h(余量1h06min)。翻拉乌山4,338m' },
+    { name: '如美镇', lat: 29.3833, lng: 98.3333, type: 'hotel', time: '15:00', desc: '海拔2,600m ✅ 低海拔适合休整' },
     { name: '如美晚餐', lat: 29.3833, lng: 98.3333, type: 'food', time: '18:00', desc: '川菜馆' }
   ]},
 
-  // D5
-  { id: 5, label: 'D5·6/9(二)', date: '6月9日·周二', title: '如美→八宿（觉巴山隧道已通）| 290km·6.5h', color: '#ff9500', locations: [
-    { name: '如美→东达山', lat: 29.3833, lng: 98.3333, type: 'transport', time: '08:00', desc: '🚗60km·2h(余量2h12min)。经觉巴山隧道' },
-    { name: '东达山垭口', lat: 29.6667, lng: 97.8333, type: 'spot', time: '10:00-10:15', desc: '海拔5,130m最高点', xhsKeyword: '东达山垭口' },
+  // D6
+  { id: 6, label: 'D6·6/10(三)', date: '6月10日·周三', title: '如美→八宿（觉巴山隧道·72拐）| 290km·6.5h', color: '#ff6482', locations: [
+    { name: '如美→东达山', lat: 29.3833, lng: 98.3333, type: 'transport', time: '08:00', desc: '🚗60km·2h(余量2h12min)。经觉巴山隧道(已通车!)' },
+    { name: '东达山垭口', lat: 29.6667, lng: 97.8333, type: 'spot', time: '10:00-10:15', desc: '海拔5,130m 川藏线最高点！', xhsKeyword: '东达山垭口' },
     { name: '左贡加油', lat: 29.6667, lng: 97.8333, type: 'transport', time: '10:30', desc: '⛽左贡加油' },
-    { name: '怒江七十二拐', lat: 30.1833, lng: 97.3000, type: 'spot', time: '12:30-13:00', desc: '标志性路段', xhsKeyword: '怒江七十二拐' },
+    { name: '怒江七十二拐', lat: 30.1833, lng: 97.3000, type: 'spot', time: '12:30-13:00', desc: '标志性路段 川藏线最惊险段', xhsKeyword: '怒江七十二拐' },
     { name: '邦达午餐', lat: 30.2333, lng: 97.2833, type: 'food', time: '13:00-13:30', desc: '备干粮' },
     { name: '八宿', lat: 30.0500, lng: 96.9167, type: 'hotel', time: '17:00', desc: '海拔3,260m' }
   ]},
 
-  // D6
-  { id: 6, label: 'D6·6/10(三)', date: '6月10日·周三', title: '然乌湖→波密 | 220km·4.5h', color: '#ff6482', locations: [
+  // D7
+  { id: 7, label: 'D7·6/11(四)', date: '6月11日·周四', title: '八宿→波密（然乌湖·来古冰川）| 220km·4.5h', color: '#00c7be', locations: [
     { name: '从八宿出发', lat: 30.0500, lng: 96.9167, type: 'transport', time: '08:30', desc: '🚗八宿→然乌湖：90km·1.5h(余量1h39min)' },
     { name: '然乌湖', lat: 29.4667, lng: 96.7500, type: 'spot', time: '10:00-11:00', desc: '蓝色冰川湖，🏔️岗日嘎布雪山群', xhsKeyword: '然乌湖' },
-    { name: '来古冰川', lat: 29.3833, lng: 96.5833, type: 'spot', time: '11:30-12:00', desc: '🚗15km·25min。可选需徒步', xhsKeyword: '来古冰川' },
-    { name: '然乌镇午餐', lat: 29.4667, lng: 96.7833, type: 'food', time: '13:00', desc: '湖边简餐' },
-    { name: '波密森林走廊', lat: 29.8500, lng: 95.7667, type: 'spot', time: '15:00', desc: '原始森林', xhsKeyword: '波密' },
-    { name: '波密', lat: 29.8500, lng: 95.7667, type: 'hotel', time: '17:00', desc: '海拔2,750m ✅ 恢复夜！⛽波密加满' }
-  ]},
-
-  // D7
-  { id: 7, label: 'D7·6/11(四)', date: '6月11日·周四', title: '波密休整·岗云杉林徒步 | 休整日', color: '#00c7be', locations: [
-    { name: '岗云杉林/草湖', lat: 29.8000, lng: 95.7000, type: 'spot', time: '09:00-12:00', desc: '中国最美森林之一，轻徒步3h。今日奇数不能进墨脱，在波密玩一天' },
-    { name: '波密午餐', lat: 29.8500, lng: 95.7667, type: 'food', time: '12:00-13:00', desc: '' },
-    { name: '波密自由活动', lat: 29.8500, lng: 95.7667, type: 'drink', time: '14:00-17:00', desc: '小镇散步，整理行李。⛽波密加满油，明天进墨脱' },
-    { name: '住波密', lat: 29.8500, lng: 95.7667, type: 'hotel', time: '18:00', desc: '海拔2,750m ✅ 第二晚恢复' }
+    { name: '来古冰川', lat: 29.3833, lng: 96.5833, type: 'spot', time: '11:30-12:30', desc: '🚗15km·25min。世界三大冰川之一，可选徒步', xhsKeyword: '来古冰川' },
+    { name: '然乌镇午餐', lat: 29.4667, lng: 96.7833, type: 'food', time: '12:30-13:30', desc: '湖边简餐' },
+    { name: '波密森林走廊', lat: 29.8500, lng: 95.7667, type: 'spot', time: '15:00-16:00', desc: '穿行原始森林，风景如画', xhsKeyword: '波密' },
+    { name: '波密', lat: 29.8500, lng: 95.7667, type: 'hotel', time: '17:00', desc: '海拔2,750m ✅⛽波密加满油，明天进墨脱' }
   ]},
 
   // D8
-  { id: 8, label: 'D8·6/12(五)', date: '6月12日·周五', title: '波密→墨脱（偶数日可进✅）| 120km·4-5h', color: '#00c7be', locations: [
-    { name: '扎墨公路', lat: 29.8500, lng: 95.7667, type: 'transport', time: '08:00', desc: '🚗波密→墨脱：120km·4-5h(余量5.5h)。偶数日可进！' },
-    { name: '果果塘大拐弯', lat: 29.2500, lng: 95.2833, type: 'spot', time: '12:30-13:00', desc: '雅鲁藏布江大拐弯', xhsKeyword: '果果塘大拐弯' },
+  { id: 8, label: 'D8·6/12(五)', date: '6月12日·周五', title: '波密→墨脱（偶数日进✅）| 120km·4-5h', color: '#0071e3', locations: [
+    { name: '扎墨公路', lat: 29.8500, lng: 95.7667, type: 'transport', time: '08:00', desc: '🚗波密→墨脱：120km·4-5h(余量5.5h)。偶数日6/12可进！' },
+    { name: '果果塘大拐弯', lat: 29.2500, lng: 95.2833, type: 'spot', time: '12:30-13:00', desc: '雅鲁藏布江大拐弯，必打卡', xhsKeyword: '果果塘大拐弯' },
     { name: '墨脱午餐', lat: 29.3167, lng: 95.3333, type: 'food', time: '13:00-14:00', desc: '墨脱石锅鸡', xhsKeyword: '墨脱美食' },
-    { name: '墨脱县城', lat: 29.3167, lng: 95.3333, type: 'spot', time: '14:00-17:00', desc: '秘境莲花，热带雨林', xhsKeyword: '墨脱' },
-    { name: '住墨脱', lat: 29.3167, lng: 95.3333, type: 'hotel', time: '18:00', desc: '海拔1,200m ✅✅ 全程最低' }
+    { name: '墨脱县城', lat: 29.3167, lng: 95.3333, type: 'spot', time: '14:00-17:00', desc: '秘境莲花，热带雨林风光', xhsKeyword: '墨脱' },
+    { name: '住墨脱', lat: 29.3167, lng: 95.3333, type: 'hotel', time: '18:00', desc: '海拔1,200m ✅✅ 全程最低，好好休息' }
   ]},
 
   // D9
-  { id: 9, label: 'D9·6/13(六)', date: '6月13日·周六', title: '墨脱→林芝🚗8-10h | 340km·8-10h', color: '#af52de', locations: [
-    { name: '墨脱出发', lat: 29.3167, lng: 95.3333, type: 'transport', time: '07:00', desc: '奇数日可出墨脱。🚗墨脱→波密：120km·4h(余量4h24min)' },
-    { name: '通麦大桥', lat: 30.1000, lng: 95.0833, type: 'spot', time: '11:30-11:45', desc: '🚗波密→通麦：90km·1.5h。通麦天险', xhsKeyword: '通麦大桥' },
-    { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '13:00-14:00', desc: '🚗通麦→鲁朗：70km·1.5h。鲁朗必吃', xhsKeyword: '鲁朗石锅鸡' },
-    { name: '色季拉山·南迦巴瓦', lat: 29.5500, lng: 94.6167, type: 'spot', time: '14:30-15:00', desc: '🚗鲁朗→色季拉山：25km·45min。🏔️南迦巴瓦峰(7,782m)', xhsKeyword: '南迦巴瓦峰' },
-    { name: '林芝八一镇', lat: 29.6500, lng: 94.3667, type: 'hotel', time: '16:00', desc: '🚗色季拉山→林芝：60km·1.5h。海拔2,950m ✅' }
+  { id: 9, label: 'D9·6/13(六)', date: '6月13日·周六', title: '🏔️墨脱→索松村·等南迦巴瓦 | 440km·10h', color: '#af52de', locations: [
+    { name: '墨脱出发', lat: 29.3167, lng: 95.3333, type: 'transport', time: '06:30', desc: '奇数日可出墨脱！今天路程440km约10h，建议尽早出发' },
+    { name: '通麦大桥', lat: 30.1000, lng: 95.0833, type: 'spot', time: '10:30-11:00', desc: '🚗墨脱→波密120km·4h→通麦90km·1.5h。通麦天险已变通途', xhsKeyword: '通麦大桥' },
+    { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '12:30-13:30', desc: '🚗通麦→鲁朗70km·1.5h。鲁朗必吃，补充体力！', xhsKeyword: '鲁朗石锅鸡' },
+    { name: '色季拉山垭口', lat: 29.5500, lng: 94.6167, type: 'spot', time: '14:00-14:20', desc: '🚗鲁朗→色季拉山25km·45min。🏔️白天看南迦巴瓦(概率更高)', xhsKeyword: '色季拉山' },
+    { name: '林芝→派镇', lat: 29.6500, lng: 94.3667, type: 'transport', time: '15:00-16:00', desc: '🚗色季拉山→林芝60km·1.5h→派镇70km·1h' },
+    { name: '入住索松村', lat: 29.5300, lng: 94.9167, type: 'hotel', time: '16:00', desc: '🏔️**南迦巴瓦峰最佳观赏点！** 选面向雪山的房间。海拔约3,000m' },
+    { name: '南迦巴瓦日落金顶', lat: 29.5300, lng: 94.9167, type: 'spot', time: '18:30-20:00', desc: '⭐在索松村等南迦巴瓦日落。6月概率30-40%，住一晚早晚都有机会', xhsKeyword: '南迦巴瓦峰日照金山' },
+    { name: '索松村晚餐', lat: 29.5300, lng: 94.9167, type: 'food', time: '20:00', desc: '藏家晚餐' }
   ]},
 
   // D10
-  { id: 10, label: 'D10·6/14(日)', date: '6月14日·周日', title: '林芝→拉萨（林拉高速）| 400km·4.5h', color: '#ff9500', locations: [
-    { name: '林拉高速', lat: 29.6500, lng: 94.3667, type: 'transport', time: '07:00', desc: '🚗林芝→拉萨：400km高速·4.5h(余量5h)' },
-    { name: '抵达拉萨', lat: 29.6500, lng: 91.1000, type: 'spot', time: '12:00', desc: '到达拉萨！' },
-    { name: '拉萨午餐', lat: 29.6530, lng: 91.1330, type: 'food', time: '12:30-13:30', desc: '藏面/甜茶馆' },
-    { name: '八廓街', lat: 29.6530, lng: 91.1330, type: 'spot', time: '14:00-16:00', desc: '慢走八廓街', xhsKeyword: '八廓街' },
+  { id: 10, label: 'D10·6/14(日)', date: '6月14日·周日', title: '🌅索松村南迦巴瓦日出→拉萨 | 500km·7h', color: '#ff9500', locations: [
+    { name: '南迦巴瓦日出金顶', lat: 29.5300, lng: 94.9167, type: 'spot', time: '06:00-06:40', desc: '⭐早起等南迦巴瓦日照金山！比色季拉山概率高得多' },
+    { name: '索松村早餐', lat: 29.5300, lng: 94.9167, type: 'food', time: '07:00-08:00', desc: '早餐后出发' },
+    { name: '索松村→林芝', lat: 29.6500, lng: 94.3667, type: 'transport', time: '08:00-10:00', desc: '🚗索松村→林芝：100km·约2h' },
+    { name: '林拉高速→拉萨', lat: 29.6500, lng: 91.1000, type: 'transport', time: '10:00-14:30', desc: '🚗林芝→拉萨：400km高速·约4.5h(余量5h)' },
+    { name: '抵达拉萨', lat: 29.6500, lng: 91.1000, type: 'spot', time: '14:30', desc: '到达拉萨！' },
+    { name: '八廓街', lat: 29.6530, lng: 91.1330, type: 'spot', time: '15:00-17:00', desc: '慢走八廓街适应海拔3,650m', xhsKeyword: '八廓街' },
     { name: '住拉萨', lat: 29.6500, lng: 91.1000, type: 'hotel', time: '18:00', desc: '海拔3,650m' }
   ]},
 
@@ -411,16 +416,16 @@ var DAYS = [
     { name: '布达拉宫', lat: 29.6579, lng: 91.1172, type: 'spot', time: '09:00-12:00', desc: '⭐⭐⭐今天开馆！需提前预约，门票200元', xhsKeyword: '布达拉宫' },
     { name: '藏餐午餐', lat: 29.6530, lng: 91.1330, type: 'food', time: '12:00-13:00', desc: '' },
     { name: '药王山观景台', lat: 29.6550, lng: 91.1150, type: 'spot', time: '14:00-15:00', desc: '50元背景照', xhsKeyword: '药王山' },
-    { name: '八廓街', lat: 29.6530, lng: 91.1330, type: 'spot', time: '15:00-17:00', desc: '逛街购物' },
+    { name: '八廓街购物', lat: 29.6530, lng: 91.1330, type: 'spot', time: '15:00-17:00', desc: '逛街购物' },
     { name: '住拉萨', lat: 29.6500, lng: 91.1000, type: 'hotel', time: '18:00', desc: '海拔3,650m' }
   ]},
 
   // D13
-  { id: 13, label: 'D13·6/17(三)', date: '6月17日·周三', title: '🏞️羊卓雍措半日→机场还车🏁 | 180km·3.5h', color: '#8e8e93', locations: [
+  { id: 13, label: 'D13·6/17(三)', date: '6月17日·周三', title: '🏞️羊卓雍措半日→贡嘎机场还车🏁 | 180km·3.5h', color: '#8e8e93', locations: [
     { name: '拉萨→羊卓雍措', lat: 28.9000, lng: 90.6000, type: 'transport', time: '07:00', desc: '🚗100km·2h(余量2h12min)' },
     { name: '羊卓雍措', lat: 28.9000, lng: 90.6000, type: 'spot', time: '09:00-12:00', desc: '湖水蓝如宝石，游玩3h环湖', xhsKeyword: '羊卓雍措' },
     { name: '羊湖午餐', lat: 28.9000, lng: 90.6000, type: 'food', time: '12:00-12:30', desc: '湖边简餐' },
-    { name: '前往贡嘎机场', lat: 29.2980, lng: 90.9123, type: 'transport', time: '12:30-14:00', desc: '🚗羊湖→贡嘎机场：80km·1.5h(余量1h39min)。顺路无需回拉萨' },
+    { name: '羊湖→贡嘎机场', lat: 29.2980, lng: 90.9123, type: 'transport', time: '12:30-14:00', desc: '🚗80km·1.5h(余量1h39min)。顺路无需回拉萨' },
     { name: '机场还车离开', lat: 29.2980, lng: 90.9123, type: 'transport', time: '14:30', desc: '贡嘎机场还车。建议订16:00后航班' }
   ]}
 ];
@@ -433,62 +438,70 @@ function overviewContent() {
     var d = DAYS[i];
     dayListHtml = dayListHtml + '<div class="card" onclick="go(' + d.id + ')"><div class="name"><span class="dot" style="background:' + d.color + '"></span>' + d.label + ' · ' + d.title + '</div><div class="desc">' + d.date + '</div></div>';
   }
-  return '<div class="hero"><h1>G214滇藏线 · 丽江→拉萨 · 13天（丽江租车+墨脱）</h1><p class="subtitle">6/5飞丽江·丽江取车·途经虎跳峡·滇藏线进藏（含墨脱）</p></div>' +
+  return '<div class="hero"><h1>G214滇藏线 · 香格里拉→拉萨 · 13天含墨脱+索松村+纳木错+羊湖</h1><p class="subtitle">6/5飞丽江·高铁到香格里拉·香格里拉租车·途经虎跳峡·墨脱·索松村</p></div>' +
     '<div class="info-grid">' +
-    '<div class="info-card"><div class="label">起点</div><div class="value">丽江三义机场（凌晨1点）</div></div>' +
+    '<div class="info-card"><div class="label">起点</div><div class="value">丽江✈️→高铁香格里拉</div></div>' +
     '<div class="info-card"><div class="label">终点</div><div class="value">拉萨贡嘎机场（D13还车）</div></div>' +
-    '<div class="info-card"><div class="label">天数</div><div class="value">13天·全程自驾</div></div>' +
-    '<div class="info-card"><div class="label">交通</div><div class="value">丽江租车·拉萨还车</div></div>' +
+    '<div class="info-card"><div class="label">天数</div><div class="value">13天·香格里拉起自驾</div></div>' +
+    '<div class="info-card"><div class="label">里程</div><div class="value">约2,500km自驾</div></div>' +
     '</div>' +
 
-    '<div class="section-head">🏔️ 雪山一览</div>' +
+    '<div class="section-head">🏔️ 沿途雪山一览</div>' +
     '<div class="pay-summary">' +
     '本路线将经过/远观以下著名雪山：<br>' +
-    '• 哈巴雪山(5,396m) — D1虎跳峡途中可见<br>' +
-    '• 白马雪山(5,430m) — D3白马雪山垭口<br>' +
-    '• 梅里雪山/卡瓦格博(6,740m) — D3-D4飞来寺，日照金山最大亮点<br>' +
-    '• 东达山(5,130m) — D5川藏线最高点<br>' +
-    '• 岗日嘎布雪山群 — D6然乌湖<br>' +
-    '• 南迦巴瓦峰(7,782m) — D9色季拉山<br>' +
+    '• 哈巴雪山(5,396m) — D3虎跳峡途中可见<br>' +
+    '• 白马雪山(5,430m) — D4白马雪山垭口<br>' +
+    '• 梅里雪山/卡瓦格博(6,740m) — D4-D5飞来寺，日照金山最大亮点<br>' +
+    '• 东达山(5,130m) — D6川藏线最高点<br>' +
+    '• 岗日嘎布雪山群 — D7然乌湖<br>' +
+    '• 南迦巴瓦峰(7,782m) — D9色季拉山+D9-D10索松村⭐⭐<br>' +
     '• 念青唐古拉峰(7,162m) — D11纳木错' +
+    '</div>' +
+
+    '<div class="section-head">🏡 索松村攻略（南迦巴瓦最佳观景点）</div>' +
+    '<div class="pay-summary">' +
+    '索松村是南迦巴瓦峰最佳观赏点：<br>' +
+    '• D9(6/13)傍晚从墨脱赶路过来，直达索松村住下<br>' +
+    '• 18:30-20:00 看南迦巴瓦日落金顶<br>' +
+    '• D10(6/14)早上06:00-06:40再看日出金顶<br>' +
+    '• 早晚各看一次，大大增加看到"羞女峰"的概率！<br>' +
+    '• 选面向雪山的民宿房间' +
     '</div>' +
 
     '<div class="section-head">⛽ 加油提醒</div>' +
     '<div class="pay-summary">' +
     '沿途加油关键点：<br>' +
-    '• D1 丽江加满 — 云南油价7.8元/L，最便宜<br>' +
-    '• D2 香格里拉加满 — 进藏前最后低价油<br>' +
-    '• D3 德钦加满 — 进藏前最后云南加油站<br>' +
-    '• D4 芒康加油 — 进藏后油价9元+/L<br>' +
-    '• D5 左贡加油<br>' +
-    '• D6 波密加满 — 为进墨脱做准备<br>' +
-    '• D7 波密加满 — 明天进墨脱<br>' +
+    '• D2 香格里拉加满 — 云南油价7.8元/L，最便宜<br>' +
+    '• D4 德钦加满 — 进藏前最后云南加油站<br>' +
+    '• D5 芒康加油 — 进藏后油价9-10元/L<br>' +
+    '• D6 左贡加油<br>' +
+    '• D7 波密加满 — 为明天进墨脱做准备<br>' +
     '⚠️ 西藏油价约9-10元/L，每次见到加油站建议加满' +
     '</div>' +
 
-    '<div class="section-head">🏛️ 布达拉宫提醒</div>' +
+    '<div class="section-head">📅 布达拉宫提醒</div>' +
     '<div class="pay-summary">' +
-    '• 周一(6/8, 6/15)闭馆，请避开<br>' +
-    '• D11(6/15 周一)安排纳木错，正好布宫闭馆<br>' +
-    '• D12(6/16 周二)布宫开馆 ✅ — 需提前预约，门票200元<br>' +
-    '• D10(6/14 周日)也开馆' +
+    '• 6/14(周日)开馆✅<br>' +
+    '• 6/15(周一)闭馆❌ — D11已安排纳木错<br>' +
+    '• 6/16(周二)开馆✅ — D12去布宫<br>' +
+    '• 需提前预约，门票200元' +
     '</div>' +
 
-    '<div class="section-head">🛕 双圣湖</div>' +
+    '<div class="section-head">🏞️ 双圣湖</div>' +
     '<div class="pay-summary">' +
     '• D11 纳木错(4,718m) — 西藏三大圣湖之一，念青唐古拉山倒映湖中<br>' +
     '• D13 羊卓雍措 — 湖水蓝如宝石，环湖3h，顺路去机场' +
     '</div>' +
 
-    '<div class="section-head">🔀 墨脱双进单出规则</div>' +
+    '<div class="section-head">🔄 墨脱双进单出规则</div>' +
     '<div class="pay-summary">' +
     '墨脱实行"双进单出"通行政策：<br>' +
-    '• 偶数日(6/12)可以进墨脱 ✅<br>' +
-    '• 奇数日(6/13)可以出墨脱 ✅<br>' +
-    '• D7(6/11 奇数)在波密休整等偶数日<br>' +
+    '• 6/12(偶数)可进墨脱 ✅<br>' +
+    '• 6/13(奇数)可出墨脱 ✅<br>' +
     '• D8(6/12 even)波密→墨脱<br>' +
-    '• D9(6/13 odd)墨脱→林芝<br>' +
-    '• 墨脱海拔仅1,200m，全程最低，适合恢复' +
+    '• D9(6/13 odd)墨脱→索松村<br>' +
+    '• 墨脱海拔仅1,200m，全程最低，适合恢复<br>' +
+    '• 扎墨公路120km需4-5h，路况较差注意安全' +
     '</div>' +
 
     '<div class="section-head">📅 行程概览</div>' +
@@ -595,12 +608,12 @@ function icon(color, emoji) {
 }
 
 if (HOTEL.lat) {
-  L.marker([HOTEL.lat, HOTEL.lng], { icon: icon('#ff9500', '🏣'), zIndexOffset: 1000 }).addTo(map).bindPopup('<b>' + HOTEL.name + '</b>');
+  L.marker([HOTEL.lat, HOTEL.lng], { icon: icon('#ff9500', '🏨'), zIndexOffset: 1000 }).addTo(map).bindPopup('<b>' + HOTEL.name + '</b>');
 }
 
 var markers = [];
 var polylines = [];
-var emojis = { food: '🍔', spot: '📍', hotel: '🏣', transport: '🚐', drink: '🍑' };
+var emojis = { food: '🍽️', spot: '📍', hotel: '🏨', transport: '🚗', drink: '🍺' };
 
 function clearMap() {
   for (var i = 0; i < markers.length; i++) { map.removeLayer(markers[i]); }
@@ -650,7 +663,7 @@ function showDay(idx) {
     }
     popupHtml = popupHtml + '<br><a href="#" onclick="event.preventDefault();openAS(\'' + l.name.replace(/'/g, "\\'") + '\',' + l.lat + ',' + l.lng + ',\'' + gmapQ + '\')">📍 导航</a>';
     if (l.xhs) {
-      popupHtml = popupHtml + ' · <a href="' + l.xhs + '" target="_blank">📃 小红书</a>';
+      popupHtml = popupHtml + ' · <a href="' + l.xhs + '" target="_blank">📕 小红书</a>';
     }
     m.bindPopup(popupHtml);
     markers.push(m);
@@ -715,7 +728,7 @@ document.addEventListener('click', function(e) {
 function payChips(pay) {
   if (!pay) return '';
   var h = '<div class="pays">';
-  var m = { cash: '💰', card: '💸', suica: 'Suica', paypay: 'PayPay', alipay: '支付宝', wechat: '微信' };
+  var m = { cash: '💴', card: '💳', suica: 'Suica', paypay: 'PayPay', alipay: '支付宝', wechat: '微信' };
   for (var k in m) {
     if (pay[k] !== undefined) {
       var c = pay[k] === 1 ? 'ok' : pay[k] === 0.5 ? 'idk' : 'no';
@@ -732,7 +745,7 @@ var IN_APP_WEBVIEW = (function() {
 
 function xhsKeyword(loc) {
   if (loc.xhsKeyword) return loc.xhsKeyword.trim();
-  return (loc.name || '').replace(/[📍✈️🚗🏔️⛽🏛️🏞️⭐✅]/g,'').replace(/[\(\)]/g,'').replace(/\s+/g,' ').trim();
+  return (loc.name || '').replace(/[📍✈️🚗🏔️⛽🏛️🏞️⭐✅🚄🚕]/g,'').replace(/[\(\)]/g,'').replace(/\s+/g,' ').trim();
 }
 
 function xhsAppUrl(loc) {
@@ -745,7 +758,7 @@ function xhsWebUrl(loc) {
 
 function dpKeyword(loc) {
   if (loc.dianpingKeyword) return loc.dianpingKeyword.trim();
-  return (loc.name || '').replace(/[📍✈️🚗🏔️⛽🏛️🏞️⭐✅]/g,'').replace(/[\(\)]/g,'').replace(/\s+/g,' ').trim();
+  return (loc.name || '').replace(/[📍✈️🚗🏔️⛽🏛️🏞️⭐✅🚄🚕]/g,'').replace(/[\(\)]/g,'').replace(/\s+/g,' ').trim();
 }
 
 function dpAppUrl(loc) {
@@ -789,20 +802,20 @@ function locCard(loc, dayIdx) {
   var lnk = '<button class="btn nav" onclick="openAS(\'' + loc.name.replace(/'/g, "\\'") + '\',' + loc.lat + ',' + loc.lng + ',\'' + gmapQ + '\')">📍 导航</button>';
   if (loc.xhs || loc.xhsKeyword) {
     var xhsHref = IN_APP_WEBVIEW ? xhsWebUrl(loc) : xhsAppUrl(loc);
-    var xhsLabel = IN_APP_WEBVIEW ? '📃 小红书' : '📃 小红书 App';
+    var xhsLabel = IN_APP_WEBVIEW ? '📕 小红书' : '📕 小红书 App';
     lnk = lnk + '<a href="' + xhsHref + '" onclick="return openXhs(\'' + locKey.replace(/'/g, "\\'") + '\')" class="btn xhs">' + xhsLabel + '</a>';
   }
   var dpEnabled = loc.dianping !== false &&
     (loc.dianping || loc.dianpingKeyword || loc.type === 'food' || loc.type === 'drink');
   if (dpEnabled) {
     var dpHref = IN_APP_WEBVIEW ? dpWebUrl(loc) : dpAppUrl(loc);
-    var dpLabel = IN_APP_WEBVIEW ? '🍪 大众点评' : '🍪 大众点评 App';
+    var dpLabel = IN_APP_WEBVIEW ? '🍜 大众点评' : '🍜 大众点评 App';
     lnk = lnk + '<a href="' + dpHref + '" onclick="return openDp(\'' + locKey.replace(/'/g, "\\'") + '\')" class="btn dp">' + dpLabel + '</a>';
   }
   if (loc.reserve) {
-    lnk = lnk + '<a href="' + loc.reserve + '" target="_blank" class="btn rsv">📮 预约</a>';
+    lnk = lnk + '<a href="' + loc.reserve + '" target="_blank" class="btn rsv">📅 预约</a>';
   }
-  var timeHtml = loc.time !== '—' ? loc.time : '备用';
+  var timeHtml = loc.time !== '—' ? loc.time : '备选';
   var detailHtml = '';
   if (loc.detail) {
     detailHtml = '<div class="details" id="' + uid + '">' + loc.detail.replace(/\n/g, '<br>') + '</div>';
@@ -832,7 +845,7 @@ function renderDay(idx) {
     h = h + '</div>';
   }
   if (alt.length) {
-    h = h + '<div class="section-head">备用</div><div class="timeline">';
+    h = h + '<div class="section-head">备选</div><div class="timeline">';
     for (var i = 0; i < alt.length; i++) {
       h = h + locCard(alt[i], idx);
     }
@@ -918,9 +931,9 @@ function openAS(name, lat, lng, gmap) {
     : 'maps://maps.apple.com/?q=' + lat + ',' + lng + '&name=' + encName;
   var googleUrl = 'https://www.google.com/maps/search/?api=1&query=' + q;
   document.getElementById('as-opts').innerHTML =
-    '<button class="as-item" onclick="window.open(\'' + appleUrl + '\');closeAS()">🍕 Apple Maps</button>' +
+    '<button class="as-item" onclick="window.open(\'' + appleUrl + '\');closeAS()">🍎 Apple Maps</button>' +
     '<button class="as-item" onclick="window.open(\'' + googleUrl + '\');closeAS()">🗺️ Google Maps</button>' +
-    '<button class="as-item" onclick="openAmap(\'' + safeName + '\',' + lat + ',' + lng + ');closeAS()">🗟 高德地图 App</button>';
+    '<button class="as-item" onclick="openAmap(\'' + safeName + '\',' + lat + ',' + lng + ');closeAS()">🧭 高德地图 App</button>';
   asOverlay.classList.add('show');
 }
 
