@@ -279,12 +279,10 @@ a:hover { text-decoration: underline; }
 </head>
 <body>
 
-<div id="map">
-  <div class="search-box" id="searchBox">
-    <input type="text" id="searchInput" placeholder="搜索地点..." />
-    <button onclick="doSearch()">搜索</button>
-    <div class="search-results" id="searchResults"></div>
-  </div>
+<div id="map"></div>
+<div class="search-box" id="searchBox">
+  <input type="text" id="searchInput" placeholder="🔍 搜索地点、景点、餐厅..." autocomplete="off" />
+  <div class="search-results" id="searchResults"></div>
 </div>
 <div class="tabs" id="tabs"></div>
 <div class="content" id="content"></div>
@@ -713,6 +711,9 @@ function goToSearchResult(lat, lng, dayId) {
   document.getElementById('searchInput').blur();
 }
 
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  doSearch();
+});
 document.getElementById('searchInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') { doSearch(); }
 });
