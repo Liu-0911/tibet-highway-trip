@@ -257,9 +257,11 @@ const map = L.map('map', { center: [HOTEL.lat, HOTEL.lng], zoom: 6, zoomControl:
 L.control.zoom({ position: 'topright' }).addTo(map);
 var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' });
 var topo = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17, attribution: '© OpenTopoMap' });
+var sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '© ESRI' });
 osm.addTo(map);
-var layers = { '标准地图': osm, '地形图(海拔)': topo };
+var layers = { '🚗 标准地图': osm, '🏔️ 地形图(等高线)': topo, '🛰️ 卫星图': sat };
 L.control.layers(null, layers, { position: 'topright' }).addTo(map);
+L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
 
 const LocateControl = L.Control.extend({
   options: { position: 'bottomright' },
