@@ -370,14 +370,14 @@ var DAYS = [
   ]},
 
   // D9
-  { id: 9, label: 'D9·6/13(六)', date: '6月13日·周六', title: '🏔️墨脱→索松村·等南迦巴瓦 | 440km·10h', color: '#af52de', locations: [
-    { name: '墨脱出发', lat: 29.3167, lng: 95.3333, type: 'transport', time: '06:30', desc: '奇数日可出墨脱！今天路程440km约10h，建议尽早出发' },
+  { id: 9, label: 'D9·6/13(六)', date: '6月13日·周六', title: '🏔️墨脱→索松村·等南迦巴瓦 ⭐ | 440km·10h', color: '#af52de', locations: [
+    { name: '墨脱出发', lat: 29.3167, lng: 95.3333, type: 'transport', time: '06:30', desc: '奇数日可出墨脱！今天路程长，建议尽早出发' },
     { name: '通麦大桥', lat: 30.1000, lng: 95.0833, type: 'spot', time: '10:30-11:00', desc: '🚗墨脱→波密120km·4h→通麦90km·1.5h。通麦天险已变通途', xhsKeyword: '通麦大桥' },
-    { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '12:30-13:30', desc: '🚗通麦→鲁朗70km·1.5h。鲁朗必吃，补充体力！', xhsKeyword: '鲁朗石锅鸡' },
+    { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '12:30-13:30', desc: '🚗通麦→鲁朗70km·1.5h。补充体力！', xhsKeyword: '鲁朗石锅鸡' },
     { name: '色季拉山垭口', lat: 29.5500, lng: 94.6167, type: 'spot', time: '14:00-14:20', desc: '🚗鲁朗→色季拉山25km·45min。🏔️白天看南迦巴瓦(概率更高)', xhsKeyword: '色季拉山' },
-    { name: '林芝→派镇', lat: 29.6500, lng: 94.3667, type: 'transport', time: '15:00-16:00', desc: '🚗色季拉山→林芝60km·1.5h→派镇70km·1h' },
+    { name: '色季拉山→派镇/索松村', lat: 29.5000, lng: 94.8000, type: 'transport', time: '14:30-16:00', desc: '🚗色季拉山下坡→林芝镇→向东沿江到派镇：共130km·约2h(不绕林芝市区)' },
     { name: '入住索松村', lat: 29.5300, lng: 94.9167, type: 'hotel', time: '16:00', desc: '🏔️**南迦巴瓦峰最佳观赏点！** 选面向雪山的房间。海拔约3,000m' },
-    { name: '南迦巴瓦日落金顶', lat: 29.5300, lng: 94.9167, type: 'spot', time: '18:30-20:00', desc: '⭐在索松村等南迦巴瓦日落。6月概率30-40%，住一晚早晚都有机会', xhsKeyword: '南迦巴瓦峰日照金山' },
+    { name: '南迦巴瓦日落金顶', lat: 29.5300, lng: 94.9167, type: 'spot', time: '18:30-20:00', desc: '⭐在索松村等南迦巴瓦日落，住一晚早晚各看一次', xhsKeyword: '南迦巴瓦峰' },
     { name: '索松村晚餐', lat: 29.5300, lng: 94.9167, type: 'food', time: '20:00', desc: '藏家晚餐' }
   ]},
 
@@ -402,22 +402,13 @@ var DAYS = [
     { name: '住拉萨', lat: 29.6500, lng: 91.1000, type: 'hotel', time: '20:00', desc: '海拔3,650m' }
   ]},
 
-  // D12
-  { id: 12, label: 'D12·6/16(二)', date: '6月16日·周二', title: '🏛️布达拉宫（周二开馆✅）', color: '#0071e3', locations: [
-    { name: '布达拉宫', lat: 29.6579, lng: 91.1172, type: 'spot', time: '09:00-12:00', desc: '⭐⭐⭐今天开馆！需提前预约，门票200元', xhsKeyword: '布达拉宫' },
-    { name: '藏餐午餐', lat: 29.6530, lng: 91.1330, type: 'food', time: '12:00-13:00', desc: '' },
-    { name: '药王山观景台', lat: 29.6550, lng: 91.1150, type: 'spot', time: '14:00-15:00', desc: '50元背景照', xhsKeyword: '药王山' },
-    { name: '八廓街购物', lat: 29.6530, lng: 91.1330, type: 'spot', time: '15:00-17:00', desc: '逛街购物' },
-    { name: '住拉萨', lat: 29.6500, lng: 91.1000, type: 'hotel', time: '18:00', desc: '海拔3,650m' }
-  ]},
-
-  // D13
-  { id: 13, label: 'D13·6/17(三)', date: '6月17日·周三', title: '🏞️羊卓雍措半日→贡嘎机场还车🏁 | 180km·3.5h', color: '#8e8e93', locations: [
-    { name: '拉萨→羊卓雍措', lat: 28.9000, lng: 90.6000, type: 'transport', time: '07:00', desc: '🚗100km·2h(余量2h12min)' },
-    { name: '羊卓雍措', lat: 28.9000, lng: 90.6000, type: 'spot', time: '09:00-12:00', desc: '湖水蓝如宝石，游玩3h环湖', xhsKeyword: '羊卓雍措' },
-    { name: '羊湖午餐', lat: 28.9000, lng: 90.6000, type: 'food', time: '12:00-12:30', desc: '湖边简餐' },
-    { name: '羊湖→贡嘎机场', lat: 29.2980, lng: 90.9123, type: 'transport', time: '12:30-14:00', desc: '🚗80km·1.5h(余量1h39min)。顺路无需回拉萨' },
-    { name: '机场还车离开', lat: 29.2980, lng: 90.9123, type: 'transport', time: '14:30', desc: '贡嘎机场还车。建议订16:00后航班' }
+  // D12 · 6/16(二) 布达拉宫→机场还车✈️18:00飞
+  { id: 12, label: 'D12·6/16(二)', date: '6月16日·周二', title: '🏛️布达拉宫→贡嘎机场还车✈️ | 60km·1h', color: '#8e8e93', locations: [
+    { name: '布达拉宫', lat: 29.6579, lng: 91.1172, type: 'spot', time: '09:00-11:00', desc: '⭐⭐⭐今天开馆！需提前预约，门票200元。建议9点入场11点前出', xhsKeyword: '布达拉宫' },
+    { name: '药王山观景台速拍', lat: 29.6550, lng: 91.1150, type: 'spot', time: '11:00-11:15', desc: '50元背景照快速打卡' },
+    { name: '藏餐午餐', lat: 29.6530, lng: 91.1330, type: 'food', time: '11:15-12:15', desc: '抓紧午餐' },
+    { name: '前往贡嘎机场', lat: 29.2980, lng: 90.9123, type: 'transport', time: '12:15-13:30', desc: '🚗拉萨→贡嘎机场：60km·开车约1h(余量1h06min)。16:30前到机场即可，充裕' },
+    { name: '机场还车·✈️离开', lat: 29.2980, lng: 90.9123, type: 'transport', time: '13:30', desc: '贡嘎机场还车。16:30前到机场，18:00飞。提前线上值机' }
   ]}
 ];
 
@@ -429,12 +420,12 @@ function overviewContent() {
     var d = DAYS[i];
     dayListHtml = dayListHtml + '<div class="card" onclick="go(' + d.id + ')"><div class="name"><span class="dot" style="background:' + d.color + '"></span>' + d.label + ' · ' + d.title + '</div><div class="desc">' + d.date + '</div></div>';
   }
-  return '<div class="hero"><h1>G214滇藏线 · 香格里拉→拉萨 · 13天含墨脱+索松村+纳木错+羊湖</h1><p class="subtitle">6/5飞丽江·高铁到香格里拉·香格里拉租车·途经虎跳峡·墨脱·索松村</p></div>' +
+  return '<div class="hero"><h1>G214滇藏线 · 香格里拉→拉萨 · 12天含墨脱+索松村+纳木错</h1><p class="subtitle">6/5飞丽江·高铁到香格里拉·香格里拉租车·虎跳峡·墨脱·索松村·纳木错</p></div>' +
     '<div class="info-grid">' +
     '<div class="info-card"><div class="label">起点</div><div class="value">丽江✈️→高铁香格里拉</div></div>' +
-    '<div class="info-card"><div class="label">终点</div><div class="value">拉萨贡嘎机场（D13还车）</div></div>' +
-    '<div class="info-card"><div class="label">天数</div><div class="value">13天·香格里拉起自驾</div></div>' +
-    '<div class="info-card"><div class="label">里程</div><div class="value">约2,500km自驾</div></div>' +
+    '<div class="info-card"><div class="label">终点</div><div class="value">贡嘎机场还车（D12飞）</div></div>' +
+    '<div class="info-card"><div class="label">天数</div><div class="value">12天·香格里拉起自驾</div></div>' +
+    '<div class="info-card"><div class="label">里程</div><div class="value">约2,400km自驾</div></div>' +
     '</div>' +
 
     '<div class="section-head">🏔️ 沿途雪山一览</div>' +
@@ -472,16 +463,18 @@ function overviewContent() {
 
     '<div class="section-head">📅 布达拉宫提醒</div>' +
     '<div class="pay-summary">' +
-    '• 6/14(周日)开馆✅<br>' +
-    '• 6/15(周一)闭馆❌ — D11已安排纳木错<br>' +
-    '• 6/16(周二)开馆✅ — D12去布宫<br>' +
+    '• 6/14(周日)到拉萨较晚，先去八廓街适应<br>' +
+    '• 6/15(周一)闭馆❌ — 已安排纳木错<br>' +
+    '• 6/16(周二)开馆✅ — D12早上去，11点前出<br>' +
+    '• 12:15出发去机场，16:30前到，18:00飞<br>' +
     '• 需提前预约，门票200元' +
     '</div>' +
 
-    '<div class="section-head">🏞️ 双圣湖</div>' +
+    '<div class="section-head">🏞️ 纳木错</div>' +
     '<div class="pay-summary">' +
     '• D11 纳木错(4,718m) — 西藏三大圣湖之一，念青唐古拉山倒映湖中<br>' +
-    '• D13 羊卓雍措 — 湖水蓝如宝石，环湖3h，顺路去机场' +
+    '• 距拉萨220km·3h车程，需一整天<br>' +
+    '• 海拔较高注意高反，带氧气瓶' +
     '</div>' +
 
     '<div class="section-head">🔄 墨脱双进单出规则</div>' +
