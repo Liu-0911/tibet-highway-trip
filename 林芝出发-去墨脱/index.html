@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -252,7 +252,7 @@ function overviewContent() {
 
 var map = L.map('map', { center: [HOTEL.lat, HOTEL.lng], zoom: 6, zoomControl: false, attributionControl: true });
 L.control.zoom({ position: 'topright' }).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+L.tileLayer('https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8', { maxZoom: 18, attribution: '高德地图' }).addTo(map);
 
 var LocateControl = L.Control.extend({
   options: { position: 'bottomright' },
