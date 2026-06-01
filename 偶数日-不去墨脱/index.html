@@ -255,7 +255,11 @@ function overviewContent() {
 
 const map = L.map('map', { center: [HOTEL.lat, HOTEL.lng], zoom: 6, zoomControl: false, attributionControl: true });
 L.control.zoom({ position: 'topright' }).addTo(map);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' });
+var topo = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17, attribution: '© OpenTopoMap' });
+osm.addTo(map);
+var layers = { '标准地图': osm, '地形图(海拔)': topo };
+L.control.layers(null, layers, { position: 'topright' }).addTo(map);
 
 const LocateControl = L.Control.extend({
   options: { position: 'bottomright' },
