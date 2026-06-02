@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>G214滇藏线 · 香格里拉→拉萨 · 13天（香格里拉租车+墨脱+索松村）</title>
-<meta name="description" content="6/5飞丽江·高铁到香格里拉·香格里拉租车·虎跳峡·滇藏线进藏·墨脱·索松村">
+<title>G214滇藏线 · 香格里拉→拉萨 · 12天（嘎隆拉冰川+索松村）</title>
+<meta name="description" content="6/5飞丽江·高铁到香格里拉·租车·虎跳峡·滇藏线进藏·嘎隆拉冰川·索松村">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -357,27 +357,28 @@ var DAYS = [
     { name: '来古冰川', lat: 29.3833, lng: 96.5833, type: 'spot', time: '11:30-12:30', desc: '🚗15km·25min。世界三大冰川之一，可选徒步', xhsKeyword: '来古冰川' },
     { name: '然乌镇午餐', lat: 29.4667, lng: 96.7833, type: 'food', time: '12:30-13:30', desc: '湖边简餐' },
     { name: '波密森林走廊', lat: 29.8500, lng: 95.7667, type: 'spot', time: '15:00-16:00', desc: '穿行原始森林，风景如画', xhsKeyword: '波密' },
-    { name: '波密', lat: 29.8500, lng: 95.7667, type: 'hotel', time: '17:00', desc: '海拔2,750m ✅⛽波密加满油，明天进墨脱' }
+    { name: '波密', lat: 29.8500, lng: 95.7667, type: 'hotel', time: '17:00', desc: '海拔2,750m ✅⛽波密加满油，明天去嘎隆拉冰川' }
   ]},
 
-  // D8
-  { id: 8, label: 'D8·6/12(五)', date: '6月12日·周五', title: '波密→墨脱（偶数日进✅）| 120km·4-5h', color: '#0071e3', locations: [
-    { name: '扎墨公路', lat: 29.8500, lng: 95.7667, type: 'transport', time: '08:00', desc: '🚗波密→墨脱：120km·4-5h(余量5.5h)。偶数日6/12可进！' },
-    { name: '果果塘大拐弯', lat: 29.2500, lng: 95.2833, type: 'spot', time: '12:30-13:00', desc: '雅鲁藏布江大拐弯，必打卡', xhsKeyword: '果果塘大拐弯' },
-    { name: '墨脱午餐', lat: 29.3167, lng: 95.3333, type: 'food', time: '13:00-14:00', desc: '墨脱石锅鸡', xhsKeyword: '墨脱美食' },
-    { name: '墨脱县城', lat: 29.3167, lng: 95.3333, type: 'spot', time: '14:00-17:00', desc: '秘境莲花，热带雨林风光', xhsKeyword: '墨脱' },
-    { name: '住墨脱', lat: 29.3167, lng: 95.3333, type: 'hotel', time: '18:00', desc: '海拔1,200m ✅✅ 全程最低，好好休息' }
+  // D8 · 波密→嘎隆拉冰川半日（不去墨脱）
+  { id: 8, label: 'D8·6/12(五)', date: '6月12日·周五', title: '🏔️波密→嘎隆拉冰川半日 | 24km·40min', color: '#00c7be', locations: [
+    { name: '波密→嘎隆拉冰川', lat: 29.7000, lng: 95.7000, type: 'transport', time: '09:00-09:40', desc: '🚗波密→嘎隆拉隧道口：24km·开车约40min。扎墨公路起点段，路况好' },
+    { name: '嘎隆拉冰川·嘎龙寺', lat: 29.7000, lng: 95.7000, type: 'spot', time: '09:40-12:00', desc: '🏔️扎墨公路上的冰川！嘎隆拉隧道口附近，冰川触手可及。游玩2h。**不过隧道就不算进墨脱，无需遵守双进单出**', xhsKeyword: '嘎隆拉冰川' },
+    { name: '返回波密', lat: 29.8500, lng: 95.7667, type: 'transport', time: '12:00-12:40', desc: '🚗原路返回波密：24km·40min' },
+    { name: '波密午餐', lat: 29.8500, lng: 95.7667, type: 'food', time: '12:40-13:30', desc: '波密县城午餐' },
+    { name: '波密下午自由活动', lat: 29.8500, lng: 95.7667, type: 'drink', time: '14:00-17:00', desc: '在波密休整，逛逛小镇。⛽波密加满油，明天去索松村' },
+    { name: '住波密', lat: 29.8500, lng: 95.7667, type: 'hotel', time: '18:00', desc: '海拔2,750m ✅ 恢复夜' }
   ]},
 
-  // D9
-  { id: 9, label: 'D9·6/13(六)', date: '6月13日·周六', title: '🏔️墨脱→索松村·等南迦巴瓦 ⭐ | 440km·10h', color: '#af52de', locations: [
-    { name: '墨脱出发', lat: 29.3167, lng: 95.3333, type: 'transport', time: '06:30', desc: '奇数日可出墨脱！今天路程长，建议尽早出发' },
-    { name: '通麦大桥', lat: 30.1000, lng: 95.0833, type: 'spot', time: '10:30-11:00', desc: '🚗墨脱→波密120km·4h→通麦90km·1.5h。通麦天险已变通途', xhsKeyword: '通麦大桥' },
-    { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '12:30-13:30', desc: '🚗通麦→鲁朗70km·1.5h。补充体力！', xhsKeyword: '鲁朗石锅鸡' },
-    { name: '色季拉山垭口', lat: 29.5500, lng: 94.6167, type: 'spot', time: '14:00-14:20', desc: '🚗鲁朗→色季拉山25km·45min。🏔️白天看南迦巴瓦(概率更高)', xhsKeyword: '色季拉山' },
-    { name: '色季拉山→派镇/索松村', lat: 29.5000, lng: 94.8000, type: 'transport', time: '14:30-16:00', desc: '🚗色季拉山下坡→林芝镇→向东沿江到派镇：共130km·约2h(不绕林芝市区)' },
-    { name: '入住索松村', lat: 29.5300, lng: 94.9167, type: 'hotel', time: '16:00', desc: '🏔️**南迦巴瓦峰最佳观赏点！** 选面向雪山的房间。海拔约3,000m' },
-    { name: '南迦巴瓦日落金顶', lat: 29.5300, lng: 94.9167, type: 'spot', time: '18:30-20:00', desc: '⭐在索松村等南迦巴瓦日落，住一晚早晚各看一次', xhsKeyword: '南迦巴瓦峰' },
+  // D9 · 波密→索松村·等南迦巴瓦
+  { id: 9, label: 'D9·6/13(六)', date: '6月13日·周六', title: '🏔️波密→索松村·等南迦巴瓦 | 260km·6h', color: '#af52de', locations: [
+    { name: '从波密出发', lat: 29.8500, lng: 95.7667, type: 'transport', time: '08:00', desc: '🚗波密→通麦：90km·1.5h(余量1h39min)' },
+    { name: '通麦大桥', lat: 30.1000, lng: 95.0833, type: 'spot', time: '09:30-09:45', desc: '通麦天险打卡', xhsKeyword: '通麦大桥' },
+    { name: '鲁朗石锅鸡', lat: 29.7500, lng: 94.7000, type: 'food', time: '11:30-12:30', desc: '🚗通麦→鲁朗：70km·1.5h。鲁朗必吃！', xhsKeyword: '鲁朗石锅鸡' },
+    { name: '色季拉山垭口', lat: 29.5500, lng: 94.6167, type: 'spot', time: '13:00-13:20', desc: '🚗鲁朗→色季拉山：25km·45min。🏔️白天看南迦巴瓦', xhsKeyword: '色季拉山' },
+    { name: '色季拉山→派镇/索松村', lat: 29.5000, lng: 94.8000, type: 'transport', time: '13:30-15:30', desc: '🚗下坡→林芝镇→沿江到派镇：130km·约2h(不绕林芝市区)' },
+    { name: '入住索松村', lat: 29.5300, lng: 94.9167, type: 'hotel', time: '15:30', desc: '🏔️南迦巴瓦峰最佳观赏点！选面向雪山的房间，海拔约3,000m' },
+    { name: '南迦巴瓦日落金顶', lat: 29.5300, lng: 94.9167, type: 'spot', time: '18:30-20:00', desc: '⭐在索松村等南迦巴瓦日落，住一晚早晚各看一次，概率大增！', xhsKeyword: '南迦巴瓦峰' },
     { name: '索松村晚餐', lat: 29.5300, lng: 94.9167, type: 'food', time: '20:00', desc: '藏家晚餐' }
   ]},
 
@@ -420,7 +421,7 @@ function overviewContent() {
     var d = DAYS[i];
     dayListHtml = dayListHtml + '<div class="card" onclick="go(' + d.id + ')"><div class="name"><span class="dot" style="background:' + d.color + '"></span>' + d.label + ' · ' + d.title + '</div><div class="desc">' + d.date + '</div></div>';
   }
-  return '<div class="hero"><h1>G214滇藏线 · 香格里拉→拉萨 · 12天含墨脱+索松村+纳木错</h1><p class="subtitle">6/5飞丽江·高铁到香格里拉·香格里拉租车·虎跳峡·墨脱·索松村·纳木错</p></div>' +
+  return '<div class="hero"><h1>G214滇藏线 · 香格里拉→拉萨 · 12天含嘎隆拉冰川+索松村+纳木错</h1><p class="subtitle">6/5飞丽江·高铁到香格里拉·租车·虎跳峡·嘎隆拉冰川·索松村·纳木错</p></div>' +
     '<div class="info-grid">' +
     '<div class="info-card"><div class="label">起点</div><div class="value">丽江✈️→高铁香格里拉</div></div>' +
     '<div class="info-card"><div class="label">终点</div><div class="value">贡嘎机场还车（D12飞）</div></div>' +
@@ -443,7 +444,7 @@ function overviewContent() {
     '<div class="section-head">🏡 索松村攻略（南迦巴瓦最佳观景点）</div>' +
     '<div class="pay-summary">' +
     '索松村是南迦巴瓦峰最佳观赏点：<br>' +
-    '• D9(6/13)傍晚从墨脱赶路过来，直达索松村住下<br>' +
+    '• D9(6/13)从波密出发，直达索松村住下<br>' +
     '• 18:30-20:00 看南迦巴瓦日落金顶<br>' +
     '• D10(6/14)早上06:00-06:40再看日出金顶<br>' +
     '• 早晚各看一次，大大增加看到"羞女峰"的概率！<br>' +
@@ -457,7 +458,7 @@ function overviewContent() {
     '• D4 德钦加满 — 进藏前最后云南加油站<br>' +
     '• D5 芒康加油 — 进藏后油价9-10元/L<br>' +
     '• D6 左贡加油<br>' +
-    '• D7 波密加满 — 为明天进墨脱做准备<br>' +
+    '• D7 波密加满 — 沿途最后大加油站<br>' +
     '⚠️ 西藏油价约9-10元/L，每次见到加油站建议加满' +
     '</div>' +
 
@@ -477,15 +478,14 @@ function overviewContent() {
     '• 海拔较高注意高反，带氧气瓶' +
     '</div>' +
 
-    '<div class="section-head">🔄 墨脱双进单出规则</div>' +
+    '<div class="section-head">🏔️ 嘎隆拉冰川（替代墨脱）</div>' +
     '<div class="pay-summary">' +
-    '墨脱实行"双进单出"通行政策：<br>' +
-    '• 6/12(偶数)可进墨脱 ✅<br>' +
-    '• 6/13(奇数)可出墨脱 ✅<br>' +
-    '• D8(6/12 even)波密→墨脱<br>' +
-    '• D9(6/13 odd)墨脱→索松村<br>' +
-    '• 墨脱海拔仅1,200m，全程最低，适合恢复<br>' +
-    '• 扎墨公路120km需4-5h，路况较差注意安全' +
+    '不去墨脱了，改为嘎隆拉冰川半日游：<br>' +
+    '• D8从波密出发仅24km/40min到达嘎隆拉隧道口<br>' +
+    '• **不过隧道不算进墨脱，无需双进单出规则**<br>' +
+    '• 冰川就在路边，触手可及，游玩2h足够<br>' +
+    '• 中午回波密午餐，下午自由休整<br>' +
+    '• D9轻松出发去索松村看南迦巴瓦' +
     '</div>' +
 
     '<div class="section-head">📅 行程概览</div>' +
