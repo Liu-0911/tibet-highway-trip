@@ -514,42 +514,36 @@ var baseMaps = {
   '🛰️ 卫星图': satLayer
 };
 
-// Weather overlay (OpenWeatherMap, requires free API key)
-var weatherTempLayer = null;
-var weatherPrecipLayer = null;
-var weatherCloudsLayer = null;
-var weatherKey = localStorage.getItem('owm_api_key') || '';
-
-function initWeatherLayers() {
-  if (!weatherKey) {
-    weatherKey = prompt('输入OpenWeatherMap免费API Key即可查看天气图层\n（注册https://openweathermap.org/api 免费获取）');
-    if (weatherKey) {
-      localStorage.setItem('owm_api_key', weatherKey);
-    } else { return; }
+// Weather overlay (OpenWeatherMap)
+function getWeatherKey() {
+  var k = localStorage.getItem('owm_api_key');
+  if (!k) {
+    k = prompt('输入OpenWeatherMap免费API Key查看天气图层\n（注册 https://openweathermap.org/api）\n新注册Key需2小时激活地图瓦片！');
+    if (k) { localStorage.setItem('owm_api_key', k); return k; }
+    return '';
   }
-  if (!weatherTempLayer) {
-    weatherTempLayer = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + weatherKey, { maxZoom: 18, opacity: 0.6, attribution: '© OpenWeatherMap' });
-    weatherPrecipLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + weatherKey, { maxZoom: 18, opacity: 0.5, attribution: '© OpenWeatherMap' });
-    weatherCloudsLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + weatherKey, { maxZoom: 18, opacity: 0.4, attribution: '© OpenWeatherMap' });
-  }
+  return k;
 }
 
-var weatherOverlays = {};
-function setupWeatherLayer() {
-  initWeatherLayers();
-  if (weatherTempLayer) {
-    weatherOverlays['🌡️ 气温(OWM)'] = weatherTempLayer;
-    weatherOverlays['🌧️ 降水(OWM)'] = weatherPrecipLayer;
-    weatherOverlays['☁️ 云量(OWM)'] = weatherCloudsLayer;
-  }
+var wk = getWeatherKey();
+var weatherLayers = {};
+if (wk) {
+  weatherLayers['🌡️ 气温'] = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + wk, { maxZoom: 18, opacity: 0.6 });
+  weatherLayers['🌧️ 降水'] = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + wk, { maxZoom: 18, opacity: 0.5 });
+  weatherLayers['☁️ 云量'] = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + wk, { maxZoom: 18, opacity: 0.4 });
 }
-setupWeatherLayer();
+// Always add a placeholder so user can re-enter key
+weatherLayers['🔑 换API Key'] = L.layerGroup([]);
 
-var allOverlays = {};
-// copy weather into allOverlays
-for (var wk in weatherOverlays) { allOverlays[wk] = weatherOverlays[wk]; }
+L.control.layers(baseMaps, weatherLayers, { position: 'topright' }).addTo(map);
 
-L.control.layers(baseMaps, allOverlays, { position: 'topright' }).addTo(map);
+// Handle the "换API Key" click
+map.on('overlayadd', function(e) {
+  if (e.name === '🔑 换API Key') {
+    localStorage.removeItem('owm_api_key');
+    alert('已清除API Key，刷新页面后重新输入即可');
+  }
+});
 
 // Scale bar
 L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
