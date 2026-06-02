@@ -96,6 +96,7 @@ a:hover { text-decoration: underline; }
 }
 .tab:active { transform: scale(.96); }
 .tab.active { background: var(--accent); color: #fff; }
+.tab-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
 
 /* Main content */
 .content { max-width: 680px; margin: 0 auto; padding: 16px 16px calc(24px + var(--safe-bottom)); }
@@ -688,28 +689,41 @@ function showDay(idx) {
 // Route cache for OSRM real road routing
 var routeCache = {};
 var routePolylines = [];
+var dayDistances = {};
+var daySegmentsLoaded = {};
+var daySegmentsTotal = {};
 
 function drawRoute(day, points) {
+  var dayId = day.id;
+  dayDistances[dayId] = 0;
+  daySegmentsLoaded[dayId] = 0;
+  daySegmentsTotal[dayId] = points.length - 1;
+
   // Add a subtle straight line first (fallback)
   var straightLine = L.polyline(points, { color: day.color, weight: 1.5, opacity: 0.2, dashArray: '3,4' }).addTo(map);
   polylines.push(straightLine);
 
   // Fetch real routes between consecutive points
   for (var i = 0; i < points.length - 1; i++) {
-    fetchRouteSegment(day.color, points[i], points[i + 1], i);
+    fetchRouteSegment(day, points[i], points[i + 1]);
   }
 }
 
-function fetchRouteSegment(color, start, end, idx) {
+function fetchRouteSegment(day, start, end) {
+  var color = day.color;
+  var dayId = day.id;
   var key = start[0].toFixed(4) + ',' + start[1].toFixed(4) + '-' + end[0].toFixed(4) + ',' + end[1].toFixed(4);
   if (routeCache[key]) {
-    drawRouteLine(color, routeCache[key]);
+    var cached = routeCache[key];
+    dayDistances[dayId] = (dayDistances[dayId] || 0) + cached.dist;
+    daySegmentsLoaded[dayId] = (daySegmentsLoaded[dayId] || 0) + 1;
+    drawRouteLine(color, cached.coords);
+    checkDayRouteComplete(day);
     return;
   }
 
   var url = 'https://router.project-osrm.org/route/v1/driving/' + start[1] + ',' + start[0] + ';' + end[1] + ',' + end[0] + '?geometries=geojson&overview=full';
 
-  // Use fetch with timeout
   var controller = new AbortController();
   var timeoutId = setTimeout(function() { controller.abort(); }, 5000);
 
@@ -718,15 +732,46 @@ function fetchRouteSegment(color, start, end, idx) {
     .then(function(data) {
       clearTimeout(timeoutId);
       if (data && data.routes && data.routes[0]) {
-        var routeCoords = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
-        routeCache[key] = routeCoords;
+        var route = data.routes[0];
+        var routeCoords = route.geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
+        var distKm = Math.round(route.distance / 1000);
+        routeCache[key] = { coords: routeCoords, dist: distKm };
+        dayDistances[dayId] = (dayDistances[dayId] || 0) + distKm;
+        daySegmentsLoaded[dayId] = (daySegmentsLoaded[dayId] || 0) + 1;
         drawRouteLine(color, routeCoords);
+        checkDayRouteComplete(day);
+      } else {
+        daySegmentsLoaded[dayId] = (daySegmentsLoaded[dayId] || 0) + 1;
+        checkDayRouteComplete(day);
       }
     })
     .catch(function() {
-      // OSRM failed, fallback to straight line (already drawn, just make it visible)
       clearTimeout(timeoutId);
+      daySegmentsLoaded[dayId] = (daySegmentsLoaded[dayId] || 0) + 1;
+      checkDayRouteComplete(day);
     });
+}
+
+function checkDayRouteComplete(day) {
+  var dayId = day.id;
+  if (daySegmentsLoaded[dayId] >= daySegmentsTotal[dayId]) {
+    var dist = dayDistances[dayId] || 0;
+    // Update the route bar in the content
+    var routeBar = document.getElementById('route-bar-' + dayId);
+    if (routeBar) {
+      routeBar.innerHTML = '🚗 实际驾车距离: <strong>' + dist + 'km</strong>';
+    } else {
+      // Insert a route bar after the day header
+      var dayHead = document.querySelector('#day-head-' + dayId);
+      if (dayHead) {
+        var bar = document.createElement('div');
+        bar.className = 'route-bar';
+        bar.id = 'route-bar-' + dayId;
+        bar.innerHTML = '🚗 实际驾车距离: <strong>' + dist + 'km</strong>';
+        dayHead.parentNode.insertBefore(bar, dayHead.nextSibling);
+      }
+    }
+  }
 }
 
 function drawRouteLine(color, coords) {
@@ -898,7 +943,7 @@ function renderDay(idx) {
       alt.push(l);
     }
   }
-  var h = '<div class="day-head"><h2>' + d.title + '</h2><p>' + d.date + '</p></div>';
+  var h = '<div class="day-head" id="day-head-' + idx + '"><h2>' + d.title + '</h2><p>' + d.date + '</p></div>';
   if (main.length) {
     h = h + '<div class="section-head">行程</div><div class="timeline">';
     for (var i = 0; i < main.length; i++) {
@@ -926,7 +971,14 @@ for (var i = 0; i < DAYS.length; i++) {
   var btn = document.createElement('button');
   btn.className = 'tab' + (d.id === 0 ? ' active' : '');
   btn.dataset.day = d.id;
-  btn.textContent = d.label;
+  if (d.id > 0) {
+    var dot = document.createElement('span');
+    dot.className = 'tab-dot';
+    dot.style.background = d.color;
+    btn.appendChild(dot);
+  }
+  var txt = document.createTextNode(' ' + d.label);
+  btn.appendChild(txt);
   tabsEl.appendChild(btn);
 }
 
