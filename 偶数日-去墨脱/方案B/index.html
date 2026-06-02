@@ -522,15 +522,34 @@ var baseMaps = {
 };
 
 // Weather overlay (OpenWeatherMap)
-// 把下面引号里的 YOUR_KEY_HERE 替换为你的真实API Key，所有设备自动可用
-var OWM_EMBEDDED_KEY = ''; // ← 在这里填入你的Key，留空则使用本地存储
+// API Key以混淆形式存储，防随意抓取。免费OWM Key额度低，安全风险可控
+// 如需更换Key，运行 console.log(decodeOWMKey('你的key')) 生成新密文
+var OWM_CIPHER = ''; // ← 留空则使用 localStorage 输入
+
+function decodeOWMKey(cipher) {
+  if (!cipher) return '';
+  try {
+    var s = atob(cipher);
+    var r = '';
+    for (var i = 0; i < s.length; i++) { r += String.fromCharCode(s.charCodeAt(i) ^ 0x2A); }
+    return r;
+  } catch(e) { return ''; }
+}
 
 function getWeatherKey() {
-  if (OWM_EMBEDDED_KEY) { return OWM_EMBEDDED_KEY; }
+  var embedded = decodeOWMKey(OWM_CIPHER);
+  if (embedded) { return embedded; }
   var k = localStorage.getItem('owm_api_key');
   if (!k) {
-    k = prompt('输入OpenWeatherMap免费API Key查看天气图层\n（注册 https://openweathermap.org/api）');
-    if (k) { localStorage.setItem('owm_api_key', k); return k; }
+    k = prompt('输入OpenWeatherMap免费API Key\n（注册 https://openweathermap.org/api）');
+    if (k) {
+      // 显示混淆后的密文，可复制到 OWM_CIPHER 变量
+      var enc = '';
+      for (var i = 0; i < k.length; i++) { enc += String.fromCharCode(k.charCodeAt(i) ^ 0x2A); }
+      console.log('OWM Key密文(可填入OWM_CIPHER): ' + btoa(enc));
+      localStorage.setItem('owm_api_key', k);
+      return k;
+    }
     return '';
   }
   return k;
