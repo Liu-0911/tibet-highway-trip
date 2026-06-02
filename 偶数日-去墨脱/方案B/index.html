@@ -679,10 +679,60 @@ function showDay(idx) {
     if (l.time !== '—') { coords.push([l.lat, l.lng]); }
   }
   if (coords.length > 1) {
-    var pl = L.polyline(coords, { color: day.color, weight: 2.5, opacity: .5, dashArray: '6,5' }).addTo(map);
-    polylines.push(pl);
+    // Draw real driving routes using OSRM (free, no API key)
+    drawRoute(day, coords);
   }
   if (coords.length) { map.fitBounds(coords, { padding: [40,40], maxZoom: 14 }); }
+}
+
+// Route cache for OSRM real road routing
+var routeCache = {};
+var routePolylines = [];
+
+function drawRoute(day, points) {
+  // Add a subtle straight line first (fallback)
+  var straightLine = L.polyline(points, { color: day.color, weight: 1.5, opacity: 0.2, dashArray: '3,4' }).addTo(map);
+  polylines.push(straightLine);
+
+  // Fetch real routes between consecutive points
+  for (var i = 0; i < points.length - 1; i++) {
+    fetchRouteSegment(day.color, points[i], points[i + 1], i);
+  }
+}
+
+function fetchRouteSegment(color, start, end, idx) {
+  var key = start[0].toFixed(4) + ',' + start[1].toFixed(4) + '-' + end[0].toFixed(4) + ',' + end[1].toFixed(4);
+  if (routeCache[key]) {
+    drawRouteLine(color, routeCache[key]);
+    return;
+  }
+
+  var url = 'https://router.project-osrm.org/route/v1/driving/' + start[1] + ',' + start[0] + ';' + end[1] + ',' + end[0] + '?geometries=geojson&overview=full';
+
+  // Use fetch with timeout
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 5000);
+
+  fetch(url, { signal: controller.signal })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      clearTimeout(timeoutId);
+      if (data && data.routes && data.routes[0]) {
+        var routeCoords = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
+        routeCache[key] = routeCoords;
+        drawRouteLine(color, routeCoords);
+      }
+    })
+    .catch(function() {
+      // OSRM failed, fallback to straight line (already drawn, just make it visible)
+      clearTimeout(timeoutId);
+    });
+}
+
+function drawRouteLine(color, coords) {
+  if (coords.length < 2) return;
+  var pl = L.polyline(coords, { color: color, weight: 3, opacity: 0.7 }).addTo(map);
+  polylines.push(pl);
 }
 
 // Search
