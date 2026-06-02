@@ -514,7 +514,42 @@ var baseMaps = {
   '🛰️ 卫星图': satLayer
 };
 
-L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
+// Weather overlay (OpenWeatherMap, requires free API key)
+var weatherTempLayer = null;
+var weatherPrecipLayer = null;
+var weatherCloudsLayer = null;
+var weatherKey = localStorage.getItem('owm_api_key') || '';
+
+function initWeatherLayers() {
+  if (!weatherKey) {
+    weatherKey = prompt('输入OpenWeatherMap免费API Key即可查看天气图层\n（注册https://openweathermap.org/api 免费获取）');
+    if (weatherKey) {
+      localStorage.setItem('owm_api_key', weatherKey);
+    } else { return; }
+  }
+  if (!weatherTempLayer) {
+    weatherTempLayer = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + weatherKey, { maxZoom: 18, opacity: 0.6, attribution: '© OpenWeatherMap' });
+    weatherPrecipLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + weatherKey, { maxZoom: 18, opacity: 0.5, attribution: '© OpenWeatherMap' });
+    weatherCloudsLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + weatherKey, { maxZoom: 18, opacity: 0.4, attribution: '© OpenWeatherMap' });
+  }
+}
+
+var weatherOverlays = {};
+function setupWeatherLayer() {
+  initWeatherLayers();
+  if (weatherTempLayer) {
+    weatherOverlays['🌡️ 气温(OWM)'] = weatherTempLayer;
+    weatherOverlays['🌧️ 降水(OWM)'] = weatherPrecipLayer;
+    weatherOverlays['☁️ 云量(OWM)'] = weatherCloudsLayer;
+  }
+}
+setupWeatherLayer();
+
+var allOverlays = {};
+// copy weather into allOverlays
+for (var wk in weatherOverlays) { allOverlays[wk] = weatherOverlays[wk]; }
+
+L.control.layers(baseMaps, allOverlays, { position: 'topright' }).addTo(map);
 
 // Scale bar
 L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
