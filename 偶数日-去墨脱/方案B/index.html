@@ -53,7 +53,7 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* Map */
-#map { width: 100%; height: 40vh; min-height: 280px; position: sticky; top: 0; z-index: 100; }
+#map { width: 100%; height: 40vh; min-height: 280px; z-index: 100; }
 
 /* Draggable resize handle between map and content */
 #map-resizer { position: relative; height: 8px; cursor: row-resize; z-index: 101; background: transparent; margin: 0; }
@@ -522,10 +522,14 @@ var baseMaps = {
 };
 
 // Weather overlay (OpenWeatherMap)
+// 把下面引号里的 YOUR_KEY_HERE 替换为你的真实API Key，所有设备自动可用
+var OWM_EMBEDDED_KEY = ''; // ← 在这里填入你的Key，留空则使用本地存储
+
 function getWeatherKey() {
+  if (OWM_EMBEDDED_KEY) { return OWM_EMBEDDED_KEY; }
   var k = localStorage.getItem('owm_api_key');
   if (!k) {
-    k = prompt('输入OpenWeatherMap免费API Key查看天气图层\n（注册 https://openweathermap.org/api）\n新注册Key需2小时激活地图瓦片！');
+    k = prompt('输入OpenWeatherMap免费API Key查看天气图层\n（注册 https://openweathermap.org/api）');
     if (k) { localStorage.setItem('owm_api_key', k); return k; }
     return '';
   }
@@ -544,12 +548,19 @@ weatherLayers['🔑 换API Key'] = L.layerGroup([]);
 
 L.control.layers(baseMaps, weatherLayers, { position: 'topright' }).addTo(map);
 
-// Draggable map resize handle
+// Draggable map resize handle - pushes content down naturally (no sticky conflict)
 (function() {
   var resizer = document.getElementById('map-resizer');
   var mapEl = document.getElementById('map');
   var isDragging = false;
   var startY, startH;
+
+  function doResize(clientY) {
+    var diff = clientY - startY;
+    var newH = Math.max(200, Math.min(window.innerHeight * 0.85, startH + diff));
+    mapEl.style.height = newH + 'px';
+    map.invalidateSize();
+  }
 
   resizer.addEventListener('mousedown', function(e) {
     isDragging = true;
@@ -558,40 +569,11 @@ L.control.layers(baseMaps, weatherLayers, { position: 'topright' }).addTo(map);
     document.body.style.cursor = 'row-resize';
     document.body.style.userSelect = 'none';
   });
+  document.addEventListener('mousemove', function(e) { if (isDragging) { e.preventDefault(); doResize(e.clientY); } });
+  document.addEventListener('mouseup', function() { isDragging = false; document.body.style.cursor = ''; document.body.style.userSelect = ''; });
 
-  document.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    var diff = e.clientY - startY;
-    var newH = startH + diff;
-    newH = Math.max(200, Math.min(window.innerHeight * 0.8, newH));
-    mapEl.style.height = newH + 'px';
-    map.invalidateSize();
-  });
-
-  document.addEventListener('mouseup', function() {
-    if (isDragging) {
-      isDragging = false;
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-    }
-  });
-
-  // Touch support
-  resizer.addEventListener('touchstart', function(e) {
-    isDragging = true;
-    startY = e.touches[0].clientY;
-    startH = mapEl.offsetHeight;
-  });
-
-  document.addEventListener('touchmove', function(e) {
-    if (!isDragging) return;
-    var diff = e.touches[0].clientY - startY;
-    var newH = startH + diff;
-    newH = Math.max(200, Math.min(window.innerHeight * 0.8, newH));
-    mapEl.style.height = newH + 'px';
-    map.invalidateSize();
-  });
-
+  resizer.addEventListener('touchstart', function(e) { isDragging = true; startY = e.touches[0].clientY; startH = mapEl.offsetHeight; });
+  document.addEventListener('touchmove', function(e) { if (isDragging) { e.preventDefault(); doResize(e.touches[0].clientY); } });
   document.addEventListener('touchend', function() { isDragging = false; });
 })();
 map.on('overlayadd', function(e) {
