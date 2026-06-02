@@ -54,6 +54,11 @@ a:hover { text-decoration: underline; }
 
 /* Map */
 #map { width: 100%; height: 40vh; min-height: 280px; position: sticky; top: 0; z-index: 100; }
+
+/* Draggable resize handle between map and content */
+#map-resizer { position: relative; height: 8px; cursor: row-resize; z-index: 101; background: transparent; margin: 0; }
+#map-resizer::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 40px; height: 4px; border-radius: 2px; background: rgba(60,60,67,.15); }
+#map-resizer:hover::after, #map-resizer:active::after { background: #007aff; }
 .locate-btn {
   width: 36px; height: 36px; border-radius: 8px;
   background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
@@ -274,6 +279,7 @@ a:hover { text-decoration: underline; }
 <body>
 
 <div id="map"></div>
+<div id="map-resizer"></div>
 <div class="search-box" id="searchBox">
   <input type="text" id="searchInput" placeholder="🔍 搜索地点、景点、餐厅..." autocomplete="off" />
   <div class="search-results" id="searchResults"></div>
@@ -538,7 +544,56 @@ weatherLayers['🔑 换API Key'] = L.layerGroup([]);
 
 L.control.layers(baseMaps, weatherLayers, { position: 'topright' }).addTo(map);
 
-// Handle the "换API Key" click
+// Draggable map resize handle
+(function() {
+  var resizer = document.getElementById('map-resizer');
+  var mapEl = document.getElementById('map');
+  var isDragging = false;
+  var startY, startH;
+
+  resizer.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    startY = e.clientY;
+    startH = mapEl.offsetHeight;
+    document.body.style.cursor = 'row-resize';
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    var diff = e.clientY - startY;
+    var newH = startH + diff;
+    newH = Math.max(200, Math.min(window.innerHeight * 0.8, newH));
+    mapEl.style.height = newH + 'px';
+    map.invalidateSize();
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (isDragging) {
+      isDragging = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+  });
+
+  // Touch support
+  resizer.addEventListener('touchstart', function(e) {
+    isDragging = true;
+    startY = e.touches[0].clientY;
+    startH = mapEl.offsetHeight;
+  });
+
+  document.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    var diff = e.touches[0].clientY - startY;
+    var newH = startH + diff;
+    newH = Math.max(200, Math.min(window.innerHeight * 0.8, newH));
+    mapEl.style.height = newH + 'px';
+    map.invalidateSize();
+  });
+
+  document.addEventListener('touchend', function() { isDragging = false; });
+})();
 map.on('overlayadd', function(e) {
   if (e.name === '🔑 换API Key') {
     localStorage.removeItem('owm_api_key');
@@ -567,21 +622,21 @@ var LocateControl = L.Control.extend({
 });
 new LocateControl().addTo(map);
 
-// Fullscreen button
+// Fullscreen button - targets map div only
 var FullscreenControl = L.Control.extend({
   options: { position: 'bottomright' },
   onAdd: function() {
     var btn = L.DomUtil.create('button', 'fs-btn');
     btn.innerHTML = '⛶';
-    btn.title = '全屏';
+    btn.title = '全屏地图';
     L.DomEvent.disableClickPropagation(btn);
     btn.addEventListener('click', function() {
-      var el = document.documentElement;
+      var mapEl = document.getElementById('map');
       if (!document.fullscreenElement) {
-        if (el.requestFullscreen) {
-          el.requestFullscreen();
-        } else if (el.webkitRequestFullscreen) {
-          el.webkitRequestFullscreen();
+        if (mapEl.requestFullscreen) {
+          mapEl.requestFullscreen();
+        } else if (mapEl.webkitRequestFullscreen) {
+          mapEl.webkitRequestFullscreen();
         }
       } else {
         if (document.exitFullscreen) {
@@ -590,6 +645,13 @@ var FullscreenControl = L.Control.extend({
           document.webkitExitFullscreen();
         }
       }
+    });
+    // Listen for fullscreen changes to resize map
+    document.addEventListener('fullscreenchange', function() {
+      setTimeout(function() { map.invalidateSize(); }, 300);
+    });
+    document.addEventListener('webkitfullscreenchange', function() {
+      setTimeout(function() { map.invalidateSize(); }, 300);
     });
     return btn;
   }
